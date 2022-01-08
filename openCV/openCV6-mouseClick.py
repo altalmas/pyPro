@@ -3,17 +3,16 @@ import cv2
 import numpy as np
 evt = -1
 coord = []
-img = np.zeros((250,250,3), np.uint8)
+img = np.zeros((250,250,3), np.uint8) # image to show
 
 def click(event,x,y,flags,params):
     global pnt
     global evt
     if event == cv2.EVENT_LBUTTONDOWN:
         print('Mouse event was : ', event)
-        print(x,' , ',y)
         pnt = (x,y)
         coord.append(pnt)
-        print(coord)
+        print(coord) # keeps increasing
         evt = event
     if event == cv2.EVENT_RBUTTONDOWN:
         print(x,y)
@@ -25,7 +24,7 @@ def click(event,x,y,flags,params):
         colorString = str(blueValue)+','+str(greenValue)+','+str(redValue)
         img[:]=[blueValue,greenValue,redValue]
         fnt = cv2.FONT_HERSHEY_PLAIN
-        r = 255-int(redValue)
+        r = 255-int(redValue) # to make the color opposite to background
         g = 255-int(greenValue)
         b = 255-int(blueValue)
         tp = (b,g,r)
