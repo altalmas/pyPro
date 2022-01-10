@@ -18,13 +18,17 @@ while True:
                                # --- Magic is here
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
     faces = face_cascade.detectMultiScale(gray, 1.3, 5) # 1.3 and 5 are tuning params
-    eyes = eye_cascade.detectMultiScale(gray, 1.3, 3)
     #smiles = smile_cascade.detectMultiScale(gray, 1.3, 5)
 
     for (x,y,w,h) in faces:
         cv2.rectangle(frame, (x,y), (x+w, y+h), (255,0,0), 3)
-    for (x,y,w,h) in eyes:
-        cv2.rectangle(frame, (x,y), (x+w, y+h), (255,0,0), 3)
+        roi_gray = gray[y:y+h,x:x+w]
+        roi_color = frame[y:y+h,x:x+w]
+        eyes = eye_cascade.detectMultiScale(roi_gray) # look for eyes inside the face
+        for (xEye,yEye,wEye,hEye) in eyes:
+            cv2.rectangle(roi_color, (xEye,yEye), (xEye+wEye, yEye+hEye), (255,0,0), 2)
+            #cv2.circle(roi_color, (int(xEye+wEye/2) , int(yEye+hEye/2)), 8, (255,0,0), -1)
+
  #   for (x,y,w,h) in smiles:
  #       cv2.rectangle(frame, (x,y), (x+w, y+h), (255,0,0), 3)
 
