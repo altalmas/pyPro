@@ -67,3 +67,7 @@ while True:
 cam.release()
 cv2.destroyAllWindows()
 
+
+# If we have 2 cameras, we can do:
+# import numpy as np
+# frameCombined = np.hstack((frame1,frame2))
