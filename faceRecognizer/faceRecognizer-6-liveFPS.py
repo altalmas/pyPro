@@ -24,7 +24,7 @@ cam = cv2.VideoCapture(camSet) # Rasperri Pi Camera
 
 timeStamp = time.time()
 
-#cam = cv2.VideoCapture(0)
+cam = cv2.VideoCapture(1)
 
 font = cv2.FONT_HERSHEY_SIMPLEX
 while True:
