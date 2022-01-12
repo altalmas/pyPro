@@ -5,7 +5,6 @@ import time
 import numpy as np
 import pickle
 
-
 dtavg = 0
 fps = 0
 font = cv2.FONT_HERSHEY_SIMPLEX
@@ -16,7 +15,6 @@ Encodings = []
 with open('company.pkl', 'rb') as f:
     Names = pickle.load(f)
     Encodings = pickle.load(f)
-
 
 class vStream():
     def __init__(self, src, width, height, scaleFactor):
