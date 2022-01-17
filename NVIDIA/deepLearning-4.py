@@ -11,8 +11,12 @@ flip=0
 #Uncomment These next Two Line for Pi Camera
 """ The following 'camSet' variable can be changed according to the settings that we get when we write in the terminal : 
     $ gst-inspect-1.0 nvarguscamerasrc
-    for example, here we are adding 'wbmode=3'
-    also, we added 'wbmode=3'
+    for example, here we are adding 'nvarguscamerasrc wbmode=3 tnr-mode=2 tnr-strength=1 ee-mode=2 ee-strength=1 !
+
+    # Also,
+
+    $ gst-inspect-1.0 videobalance
+    ! videobalance contrast=2 brightness=2 saturation=-0.2 !
 """
 camSet1='nvarguscamerasrc !  video/x-raw(memory:NVMM), width=3264, height=2464, format=NV12, framerate=21/1 ! nvvidconv flip-method='+str(flip)+' ! video/x-raw, width='+str(dispW)+', height='+str(dispH)+', format=BGRx ! videoconvert ! video/x-raw, format=BGR ! appsink'
 camSet2='nvarguscamerasrc wbmode=3 tnr-mode=2 tnr-strength=1 ee-mode=2 ee-strength=1 !  video/x-raw(memory:NVMM), width=3264, height=2464, format=NV12, framerate=21/1 ! nvvidconv flip-method='+str(flip)+' ! video/x-raw, width='+str(dispW)+', height='+str(dispH)+', format=BGRx ! videoconvert ! video/x-raw, format=BGR ! videobalance contrast=2 brightness=2 saturation=-0.2 ! appsink'
