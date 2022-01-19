@@ -1,0 +1,20 @@
+From this source:
+    https://github.com/PhysicsX/Gstreamer-on-embedded-devices 
+
+Running the WebCam from the Terminal :
+    1. $ gst-launch-1.0 v4l2src device=/dev/video1 ! decodebin ! videoconvert ! ximagesink
+    
+Running the PiCam from the Terminal :
+    1. $ gst-launch-1.0 nvarguscamerasrc ! "video/x-raw(memory:NVMM),width=300, height=300, framerate=30/1, format=NV12" ! nvvidconv flip-method=1 ! nvegltransform ! nveglglessink -e
+
+    also, 
+    1. $ gst-launch-1.0 nvarguscamerasrc ! 'video/x-raw(memory:NVMM), width=3264, height=2464, framerate=21/1' ! nvvidconv flip-method=0 ! video/x-raw, width=640,height=480 ! ximagesink
+
+----------------------------------
+Streaming with UDP from terminal (in jetson)
+    1. $ gst-launch-1.0 nvarguscamerasrc ! 'video/x-raw(memory:NVMM), format=NV12, width=1920, height=1080' ! nvv4l2h264enc insert-sps-pps=true ! h264parse ! rtph264pay pt=96 ! udpsink host=0.0.0.0 port=8001 sync=false -e
+Geting the streaming from another terminal (also in jetson)
+    1. $ gst-launch-1.0 udpsrc address=0.0.0.0 port=8001   caps='application/x-rtp, encoding-name=(string)H264, payload=(int)96' !   rtph264depay ! queue ! h264parse ! nvv4l2decoder ! nv3dsink -e
+
+***Now, I still need to get the streaming from another PC
+
