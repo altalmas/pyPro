@@ -1,0 +1,13 @@
+How to clone a repository
+    1. Go to a directory
+    2. $ cd ~/...**.../myDirectory
+    3. git clone https://github.com/altalmas/pyPro.git
+    4. Done
+
+How up update my local repository
+    1. go to the local directory where the repository is there
+    2. $ cd ~/...**.../myDirectory
+    3. $ git remote add upstream https://github.com/altalmas/pyPro.git
+    4. $ git pull upstream master
+    5. Done
+
