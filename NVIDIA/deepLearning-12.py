@@ -1,3 +1,5 @@
+# Here I want to connect to the Jetson Camera remotely
+
 import cv2
 
 dispW = 320*2
@@ -5,6 +7,7 @@ dispH = 240*2
 flip = 0 # or 2
 
 camSet='nvarguscamerasrc !  video/x-raw(memory:NVMM), width=3264, height=2464, format=NV12, framerate=21/1 ! nvvidconv flip-method='+str(flip)+' ! video/x-raw, width='+str(dispW)+', height='+str(dispH)+', format=BGRx ! videoconvert ! video/x-raw, format=BGR ! appsink'
+
 
 # to launch the remote camera
 #camSet=' tcpclientsrc host=10.8.1.8 port=8554 ! gdpdepay ! rtph264depay ! h264parse ! nvv4l2decoder  ! nvvidconv flip-method='+str(flip)+' ! video/x-raw,format=BGRx ! videoconvert ! video/x-raw, width='+str(dispW)+', height='+str(dispH)+',format=BGR ! appsink  drop=true sync=false '
