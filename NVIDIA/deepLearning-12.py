@@ -1,4 +1,5 @@
 import cv2
+import os
 
 dispW = 320*2
 dispH = 240*2
@@ -10,20 +11,27 @@ camSet='nvarguscamerasrc sensor-id=0 ! video/x-raw(memory:NVMM), width=3264, hei
 # for webcam
 #camSet='v4l2src device=/dev/video1 ! video/x-raw, width='+str(dispW)+', height='+str(dispH)+', framerate=30/1 ! videoconvert ! appsink'
 
-#camSet = "udpsrc address=0.0.0.0 port=8001 caps='application/x-rtp, encoding-name=(string)H264, payload=(int)96' ! rtph264depay ! queue ! h264parse ! nvv4l2decoder ! nv3dsink -e"
-
-cam = cv2.VideoCapture(camSet) # Either WebCam or PiCam
+cam = cv2.VideoCapture(camSet, cv2.CAP_GSTREAMER) # Either WebCam or PiCam
 #cam = cv2.VideoCapture(1) # for webcam
 
+camSet2 = 'gst-launch-1.0 nvarguscamerasrc ! "video/x-raw(memory:NVMM), format=NV12, width=1920, height=1080" ! nvv4l2h264enc insert-sps-pps=true ! h264parse ! rtph264pay pt=96 ! udpsink host=192.168.178.63 port=8001 sync=false -e'
+os.system(camSet2)
+
 while True:
-#try:
-    ret, frame = cam.read()    # --- Read the Frame
-                            # --- Magic is here
-    cv2.imshow('piCam', frame) # --- Show the Frame
-#except:
-    #print("No Camera")
+    try:
+        ret, frame = cam.read()     # --- Read the Frame
+                                    # --- Magic is here
+        frame = cv2.rectangle(frame,(340,100),(400,170),(255,0,0),4)
+        
+        cv2.imshow('piCam', frame) # --- Show the Frame
+        cv2.moveWindow('piCam', 0, 0)
+    except:
+        print("No Camera")
+
+    
     if cv2.waitKey(1)==ord('q'): # wait to press 'q'
         break
 
 cam.release()
 cv2.destroyAllWindows()
+

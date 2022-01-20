@@ -14,6 +14,7 @@ while True:
         ret, frame = cam.read()    # --- Read the Frame
                                # --- Magic is here
         cv2.imshow('piCam', frame) # --- Show the Frame
+        cv2.moveWindow('piCam', 0, 0)
     except:
         print("No Camera")
     if cv2.waitKey(1)==ord('q'): # wait to press 'q'

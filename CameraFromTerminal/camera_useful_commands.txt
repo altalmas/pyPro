@@ -19,5 +19,14 @@ Streaming with UDP from terminal (in jetson)
 Geting the streaming from another terminal (also in jetson)
     1. $ gst-launch-1.0 udpsrc address=0.0.0.0 port=8001   caps='application/x-rtp, encoding-name=(string)H264, payload=(int)96' !   rtph264depay ! queue ! h264parse ! nvv4l2decoder ! nv3dsink -e
 
-***Now, I still need to get the streaming from another PC
+
+Now, Streaming with UDP from the terminal in jetson nano and giving the IP address of the host PC:
+    1. gst-launch-1.0 nvarguscamerasrc ! 'video/x-raw(memory:NVMM), format=NV12, width=1920, height=1080' ! nvv4l2h264enc insert-sps-pps=true ! h264parse ! rtph264pay pt=96 ! udpsink host=192.168.178.63 port=8001 sync=false -e
+From the PC side, to display what the jetson nano is streaming: 
+    1. GST_DEBUG_DUMP_DOT_DIR=/tmp gst-launch-1.0 udpsrc port=8001 ! 'application/x-rtp, payload=96' ! rtph264depay ! decodebin ! autovideosink
+    
+----------------------------------
+
+
+
 
