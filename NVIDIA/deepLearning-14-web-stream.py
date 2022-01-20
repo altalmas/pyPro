@@ -43,8 +43,10 @@ def captureFrames():
         # with thread safe access
         with thread_lock:
             video_frame = frame.copy()
-        
-                
+            cv2.rectangle(video_frame, (0,35), (80,70), (0,0,255), -1)
+            cv2.rectangle(video_frame, (0,0), (80,35), (0,0,255), 2)
+            cv2.rectangle(video_frame, (0,35), (80,70), (0,0,255), -1)
+
         key = cv2.waitKey(30) & 0xff
         if key == 27:
             break 
