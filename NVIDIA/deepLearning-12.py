@@ -7,17 +7,11 @@ flip = 0 # or 2
 
 # Rasperri Pi Camera
 camSet='nvarguscamerasrc sensor-id=0 ! video/x-raw(memory:NVMM), width=3264, height=2464, format=NV12, framerate=21/1 ! nvvidconv flip-method='+str(flip)+' ! video/x-raw, width='+str(dispW)+', height='+str(dispH)+', format=BGRx ! videoconvert ! video/x-raw, format=BGR ! appsink'
-
 # for webcam
 camSet='v4l2src device=/dev/video1 ! video/x-raw, width='+str(dispW)+', height='+str(dispH)+', framerate=30/1 ! videoconvert ! appsink'
 
 cam = cv2.VideoCapture(camSet, cv2.CAP_GSTREAMER) # Either WebCam or PiCam
 #cam = cv2.VideoCapture(1) # for webcam
-
-#camSet2 = 'gst-launch-1.0 nvarguscamerasrc ! "video/x-raw(memory:NVMM), format=NV12, width=1920, height=1080" ! nvv4l2h264enc insert-sps-pps=true ! h264parse ! rtph264pay pt=96 ! udpsink host=192.168.178.63 port=8001 sync=false -e'
-
-#camSet2 = 'gst-launch-1.0 v4l2src device="/dev/video1" ! video/x-raw, width=640, height=480, framerate=30/1 ! nvvidconv ! "video/x-raw(memory:NVMM), format=NV12" ! nvv4l2h264enc insert-sps-pps=true ! h264parse ! rtph264pay pt=96 ! udpsink host=192.168.178.63 port=8001 sync=false -e'
-#os.system(camSet2)
 
 while True:
     try:
@@ -36,4 +30,3 @@ while True:
 
 cam.release()
 cv2.destroyAllWindows()
-

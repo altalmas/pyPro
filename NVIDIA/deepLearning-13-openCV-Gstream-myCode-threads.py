@@ -1,3 +1,15 @@
+"""
+To receive the udp stream :
+
+gst-launch-1.0 udpsrc port=5000 ! \
+application/x-rtp,encoding-name=H264,payload=96 ! \
+rtph264depay ! \
+h264parse ! \
+queue ! \
+avdec_h264 ! \
+autovideosink sync=false async=false -e
+"""
+
 from threading import Thread
 import cv2
 import time
@@ -26,9 +38,11 @@ dispH = 240*1
 flip = 2 # or 2
 camSet1='nvarguscamerasrc sensor-id=0 ! video/x-raw(memory:NVMM), width=3264, height=2464, format=NV12, framerate=21/1 ! nvvidconv flip-method='+str(flip)+' ! video/x-raw, width='+str(dispW)+', height='+str(dispH)+', format=BGRx ! videoconvert ! video/x-raw, format=BGR ! appsink'
 camSet2='v4l2src device=/dev/video1 ! video/x-raw, width='+str(dispW)+', height='+str(dispH)+', framerate=30/1 ! videoconvert ! appsink'
+out_pipeline = 'appsrc ! video/x-raw, format=BGR ! queue ! videoconvert ! video/x-raw, format=BGRx ! nvvidconv ! omxh264enc ! video/x-h264, stream-format=byte-stream ! h264parse ! rtph264pay pt=96 config-interval=1 ! udpsink host=192.168.178.63 port=5000'
 
-cam1 = vStream(camSet2, dispW, dispH, 0.5) #Initialize Camera
-cam2 = vStream(camSet1, dispW, dispH, 0.5)
+cam1 = vStream(camSet1, dispW, dispH, 0.5) #Initialize Camera
+cam2 = vStream(camSet2, dispW, dispH, 0.5)
+out = cv2.VideoWriter(out_pipeline, 0, 30, (dispW,dispH)) # fps = 30
 
 startTime = time.time()
 font = cv2.FONT_HERSHEY_SIMPLEX
@@ -51,13 +65,12 @@ while True:
         cv2.imshow('comboCam', myFrame3)
         cv2.moveWindow('comboCam', 0, 0)
 
-        
+        out.write(myFrame3) # update the ouput stream pipeline
 
         dt = time.time() - startTime
         startTime = time.time()
         dtavg = 0.9*dtavg + 0.1*dt # low pass filter
         fps = 1/dtavg
-
 
     except:
         print('frame not available')

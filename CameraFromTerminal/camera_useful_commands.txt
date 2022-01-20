@@ -38,4 +38,12 @@ From the PC side, to display what the jetson nano is streaming:
 ----------------------------------
 
 Now I need to stream the modified frame
+This is done from : 
+    https://forums.developer.nvidia.com/t/opencv-video-writer-to-gstreamer-appsrc/115567/21 
+
+----------------------------------
+
+
+
+
 
