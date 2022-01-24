@@ -129,6 +129,8 @@ def gstreamer_pipeline_out():
         "udpsink host=192.168.178.63 port=5000"
     )
 
+font = cv2.FONT_HERSHEY_SIMPLEX
+
 def start_cameras():
     cam = CSI_Camera()
     cam.open(gstreamer_pipeline())
@@ -138,7 +140,7 @@ def start_cameras():
         print("Unable to open any cameras")
         SystemExit(0)
 
-    out = cv2.VideoWriter(gstreamer_pipeline_out(), 0, 60, (1280,720))
+    out = cv2.VideoWriter(gstreamer_pipeline_out(), 0, 30, (1280,720*1))
 
     while not out.isOpened():
       print('VideoWriter not opened')
@@ -147,6 +149,7 @@ def start_cameras():
     while True :
         _ , frame=cam.read()
         img = cv2.blur(frame,(3,3))
+        
         #img = cv2.medianBlur(img,9)
         out.write(img)
 
@@ -156,38 +159,4 @@ def start_cameras():
 if __name__ == "__main__":
     start_cameras()
 
-""" --- Check later ---
-and to stream both cameras stitched together as bash script:
-
-gst-launch-1.0 nvcompositor name=comp \
-  sink_0::xpos=0 sink_0::ypos=0 sink_0::width=1280 sink_0::height=720 \
-  sink_1::xpos=0 sink_1::ypos=720 sink_1::width=1280 sink_1::height=720 ! \
-nvvidconv ! \
-nvv4l2h264enc bitrate=16000000 insert-sps-pps=true ! \
-rtph264pay mtu=1400 ! \
-udpsink host=192.168.0.106 port=5000  \
-nvarguscamerasrc sensor-id=0 sensor-mode=3 ! \
-'video/x-raw(memory:NVMM),
-  width=1280,
-  height=720,
-  format=NV12,
-  framerate=60/1' ! \
-nvvidconv flip-method=0 ! \
-comp.sink_0 \
-nvarguscamerasrc sensor-id=1 sensor-mode=3 ! \
-  'video/x-raw(memory:NVMM),
-  width=1280,
-  height=720,
-  format=NV12,
-  framerate=60/1' ! \
-nvvidconv flip-method=0 ! \
-comp.sink_1
-receive with
-
-application/x-rtp,encoding-name=H264,payload=96 ! \
-rtph264depay ! \
-h264parse ! \
-queue ! \
-avdec_h264 ! \
-autovideosink sync=false async=false -e
-"""
+    

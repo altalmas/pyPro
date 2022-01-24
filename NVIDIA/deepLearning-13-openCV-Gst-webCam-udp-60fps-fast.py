@@ -20,7 +20,7 @@ class vStream():
         self.width = width
         self.height = height
         self.scaleFactor = scaleFactor
-        self.capture = cv2.VideoCapture(src)
+        self.capture = cv2.VideoCapture(src, cv2.CAP_GSTREAMER)
         self.thread = Thread(target = self.update, args=())
         self.thread.daemon = True # tells the Thread to behave nicely with other threads
         self.thread.start()
@@ -33,16 +33,21 @@ class vStream():
     def getFrame(self):
         return self.frame2
 
-dispW = 320*1
-dispH = 240*1
+dispW = 1280
+dispH = 720
 flip = 2 # or 2
-camSet1='nvarguscamerasrc sensor-id=0 ! video/x-raw(memory:NVMM), width=3264, height=2464, format=NV12, framerate=21/1 ! nvvidconv flip-method='+str(flip)+' ! video/x-raw, width='+str(dispW)+', height='+str(dispH)+', format=BGRx ! videoconvert ! video/x-raw, format=BGR ! appsink'
-camSet2='v4l2src device=/dev/video1 ! video/x-raw, width='+str(dispW)+', height='+str(dispH)+', framerate=30/1 ! videoconvert ! appsink'
+camSet2='v4l2src device=/dev/video1 ! video/x-raw, width=1280, height=720, framerate=30/1 ! videoconvert ! appsink'
 out_pipeline = 'appsrc ! video/x-raw, format=BGR ! queue ! videoconvert ! video/x-raw, format=BGRx ! nvvidconv ! omxh264enc ! video/x-h264, stream-format=byte-stream ! h264parse ! rtph264pay pt=96 config-interval=1 ! udpsink host=192.168.178.63 port=5000'
 
-cam1 = vStream(camSet1, dispW, dispH, 0.5) #Initialize Camera
-cam2 = vStream(camSet2, dispW, dispH, 0.5)
-out = cv2.VideoWriter(out_pipeline, 0, 30, (dispW,dispH)) # fps = 30
+#cam2 = vStream(camSet2, dispW, dispH, 0.5) # not working good, needs some configuration
+cam2 = vStream(1, dispW, dispH, 0.5)
+
+dispW = int(cam2.capture.get(cv2.CAP_PROP_FRAME_WIDTH)) # returns 1280
+dispH = int(cam2.capture.get(cv2.CAP_PROP_FRAME_HEIGHT))# returns 720
+#print("dispW : ", dispW)
+#print("dispH : ", dispH)
+
+out = cv2.VideoWriter(out_pipeline, 0, 60, (dispW,dispH)) # fps = 60
 
 startTime = time.time()
 font = cv2.FONT_HERSHEY_SIMPLEX
@@ -51,21 +56,16 @@ fps = 0
 
 while True:
     try:
-        myFrame1 = cam1.getFrame()
-        cv2.rectangle(myFrame1, (0,0), (80,35), (0,0,255), 2)
-        cv2.putText(myFrame1, 'webCam', (5,20), font, 0.5, (0,255,255), 1)
-        cv2.rectangle(myFrame1, (0,35), (80,70), (0,0,255), -1)
-        cv2.putText(myFrame1, str(round(fps,1)), (5,60), font, 0.5, (0,255,255), 1)
-
         myFrame2 = cam2.getFrame()
-        cv2.rectangle(myFrame2, (0,0), (60,35), (0,0,255), 2)
-        cv2.putText(myFrame2, 'piCam', (5,20), font, 0.5, (0,255,255), 1)
+        cv2.rectangle(myFrame2, (0,0), (80,35), (0,0,255), 2)
+        cv2.putText(myFrame2, 'webCam', (5,20), font, 0.5, (0,255,255), 1)
+        cv2.rectangle(myFrame2, (0,35), (80,70), (0,0,255), -1)
+        cv2.putText(myFrame2, str(round(fps,1)), (5,60), font, 0.5, (0,255,255), 1)
 
-        myFrame3 = np.hstack((myFrame1, myFrame2)) # horizontally stack
-        cv2.imshow('comboCam', myFrame3)
-        cv2.moveWindow('comboCam', 0, 0)
+        cv2.imshow('webCam', myFrame2)
+        cv2.moveWindow('webCam', 0, 0)
 
-        out.write(myFrame3) # update the ouput stream pipeline
+        out.write(myFrame2) # update the ouput stream pipeline
 
         dt = time.time() - startTime
         startTime = time.time()
@@ -76,8 +76,8 @@ while True:
         print('frame not available')
 
     if cv2.waitKey(1) == ord('q'):
-        cam1.capture.release()
         cam2.capture.release()
         cv2.destroyAllWindows()
         exit(1)
         #break
+
