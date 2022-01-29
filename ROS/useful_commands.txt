@@ -1,0 +1,286 @@
+References:
+commands  1-7 : http://wiki.ros.org/ROS/Tutorials/UnderstandingNodes 
+commands  8-16 : http://wiki.ros.org/ROS/Tutorials/UnderstandingTopics 
+commands 17-25 : http://wiki.ros.org/ROS/Tutorials/UnderstandingServicesParams 
+commands 26-28 : http://wiki.ros.org/ROS/Tutorials/UsingRqtconsoleRoslaunch
+command  29 : http://wiki.ros.org/ROS/Tutorials/UsingRosEd 
+command  30 : http://wiki.ros.org/ROS/Tutorials/CreatingMsgAndSrv 
+there are 2 tutorials for writing simple publisher and subscriber in (C++ and python)
+command 31 : http://wiki.ros.org/ROS/Tutorials/ExaminingPublisherSubscriber 
+there are 2 tutorials fro writing simple service and client in (C++ and python)
+command 32 : http://wiki.ros.org/ROS/Tutorials/ExaminingServiceClient 
+commands 33-34 : http://wiki.ros.org/ROS/Tutorials/Recording%20and%20playing%20back%20data 
+command 35 : http://wiki.ros.org/ROS/Tutorials/reading%20msgs%20from%20a%20bag%20file 
+commands 36-37 : http://wiki.ros.org/ROS/Tutorials/Getting%20started%20with%20roswtf 
+
+-------------------------------------------
+1. First command to run when using ROS:
+    $ roscore
+
+2. List the active nodes:
+    $ rosnode list
+
+3. Return info. about a specific node:
+    $ rosnode info /rosout
+    $ rosnode info /turtlesim
+
+4. Run a node from a package:
+    $ rosrun [pkg_name] [node_name]
+    $ rosrun turtlesim turtlesim_node
+
+6. Change a node's name:
+    $ rosrun turtlesim turtlesim_node __name:=my_turtle
+    
+5. Ping a node
+    $ rosnode ping turtlesim_node
+
+7. Cleanup the rosnode list:
+    $ rosnode cleanup
+
+8. Node to drive the turtle (Arrow Keys)
+    $ rosrun turtlesim turtle_teleop_key
+
+-------- ROS TOPICS -----------
+9. Dynamic graph for nodes & topics
+    $ rosrun rqt_graph rqt_graph
+
+10. Ros Topic infromation
+    $ rostopic -h
+
+11. Examples of rostopic command:
+    $ rostopic bw
+    $ rostopic echo /turtle1/cmd_vel
+    $ rostopic echo /turtle1/pose
+    $ rostopic hz /turtle1/pose
+    $ rostopic list -v
+    $ rostopic type /turtle1/cmd_vel
+    $ rostopic pub -1 /turtle1/cmd_vel geometry_msg/Twist -- '[2.0, 0.0, 0.0]' '[0.0, 0.0, 1.8]'
+        meaning:
+        -1 : publish only 1 message
+        -- : This option (double-dash) tells the option parser that none of the following arguments is an option.
+             and this is required in cases where your arguments have a leading dash -, like negative numbers.
+        '[2.0, 0.0, 0.0]' '[0.0, 0.0, 1.8]' : These arguments are in YAML syntax.
+
+    $ rostopic pub /turtle1/cmd_vel geometry_msg/Twist -r 1 -- '[2.0, 0.0, 0.0]' '[0.0, 0.0, 1.8]'
+        meaning:
+        -r : publish a steady stream of commands
+
+12. See data published by turtlesim
+    $ rostopic echo turtle1/pose
+
+13. ROS message details:
+    $ rosmsg show geometry_msg/Twist
+
+14. How fast turtlesim_node is publishing /turtle1/pose:
+    $ rostopic hz /turtles1/pose
+    Now we know that the turtlesim is publishing data about out turtle at the rate of ~60 hz
+
+15. To get in depth infromation about a topic, we can use a conjunction
+    $ rostopic type /turtle1/cmd_vel | rosmsg show
+
+16. Plot data being published on the /turtle1/pose using rqt_plot
+    $ rosrun rqt_plot rqt_plot
+    on the topic field, type :
+        /turtle1/pose/x
+        /turtle1/pose/y
+        /turtle1/pose/theta
+
+-------- ROS SERVICES -----------
+
+17. Using ROS services
+    $ rosservice -h
+    includes:
+        $ rosservice args
+        $ rosservice call
+        $ rosservice find
+        $ rosservice info
+        $ rosservice list
+        $ rosservice type
+        $ rosservice uri
+
+18. Listing ROS services:
+    $ rosservice list
+
+19. Check the type of ROS service (/clear):
+    $ rosservice type /clear
+        > std_srvs/Empty
+        meaning:
+            This service is empty, service call is made where it takes no arguments
+
+20. Calling a ROS service
+    $ rosservice call [service] [args]
+    $ rosservice call /clear
+
+21. Check the type or ROS service (/spawn) , where the service has arguments
+    $ rosservice type /spawn | rossrv show
+        This service lets us spawn a new turtle at a give location, orientation and name
+        For example:
+            $ rosservice call /spawn 2 2 0.2 "my_new_turtle"
+
+22. Using ROS parameters
+    $ rosparam -h
+        includes:
+            $ rosparam set
+            $ rosparam get
+            $ rosparam load
+            $ rosparam dump
+            $ rosparam delete
+            $ rosparam list
+
+23. Listing ROS parameters
+    $ rosparam list
+        Here we see that the turtlesim_node has 3 parameters:
+            /turtlesim/background_b
+            /turtlesim/background_g
+            /turtlesim/background_r
+                We can set/get these parameters as follows:
+                    $ rosparam set /turtlesim/background_r 150
+                    $ rosparam get /turtlesim/background_g
+                        > 86
+
+24. Showing all the contents of the entire parameter server:
+    $ rosparam get /
+
+25. Dump and Load ROS parameters
+    $ rosparam dump [file_name] [namespace]
+    $ rosparam load [file_name] [namespace]
+        Examples:
+            $ rosparam dump params.yaml
+            $ rosparam load params.yaml copy_turtle
+                Then, we can get parameters from the loaded files:
+                    $ rosparam get /copy_turtle/turtlesim/background_b
+                        > 255                
+
+26. To use the rqt_console
+    $ rosrun rqt_console rqt_console
+
+27. To use the rqt_logger_level
+    $ rosrun rqt_logger_level rqt_logger_level
+
+Then, we can
+    $ rosrun turtlesim turtlesim_node
+
+28. Using ROS Launch
+    a. first go to the catkin work space (catkin_ws)
+    b. source the environment setup
+        $ source devel/setup.bash
+    c. make a launch directory
+        $ mkdir launch
+        $ cd launch
+    d. make the (.launch) file
+    Then:
+        $ roslaunch [pkg] [filename.launch]
+    Example:
+        $ roslaunch beginner_tutorials turtlemimic.launch
+            This example make two turtlesims start, such that the
+            second turtlesim2 will follow turtlesim1
+    Then, we can do:
+        $ rqt_graph
+
+29. 'rosed' command helps in directly editing a file within a package
+    $ rosed [pkg_name] [filename]
+    Example:
+    $ rosed roscpp Logger.msg
+    We can also see all possible files from a package by <tab><tab>:
+    $ rosed roscpp <tab><tab>
+        Please note that the default editor(IDE) is 'vim'
+        to change the editor :
+            $ export EDITOR='nano -w'
+        to check the editor:
+            $ echo $EDITOR
+
+30. After creating ROS msg and srv, 
+    to make sure the ROS can see the new msg or srv, 
+    you can do:
+        $ rosmsg show [message type]
+        $ rossrv show <service type>
+        Examples:
+        $ rosmsg show beginner_tutorials/Num
+        $ rossrv show beginner_tutorials/AddTwoInts
+
+31. In order to examine the talker and listener:
+    $ cd ~/catkin_ws
+    $ source ./devel/setup.bash
+    $ rosrun beginner_tutorials talker       : for C++
+    $ rosrun beginner_tutorials talker.py    : for python
+    In another terminal: 
+    $ rosrun beginner_tutorials listener     : for C++
+    $ rosrun beginner_tutorials listener.py  : for python
+
+32 . In order to examine the server and client:
+    $ rosrun beginner_tutorials add_two_ints_server     : for C++
+    $ rosfun beginner_tutorials add_two_ints_server.py  : for python
+    In another terminal:
+    $ rosrun beginner_tutorials add_two_ints_client 33 44   : for C++
+    $ rosfun beginner_tutorials add_two_ints_client.py 1 3  : for python
+    Please note that these 2 numbers at the end are the input numbers to sum (an examples)
+
+33. Recording data in a bag:
+    After initilizing all the nodes I want to record (and making
+    sure that all topics are being active):
+    $ rostopic list -v
+    Then, I can mkdir to save my recordings:
+    $ mkdir ~/bagfiles
+    $ cd bagfiles
+    $ rosbag record -a
+        meaning:
+        -a : means record all topics
+        Then, I can stop the recording by (Ctrl-C)
+        Then, in the directory where the files is:
+            $ rosbag info <your bagfile.bag>
+            To check the files:
+            $ rosbag info <tab><tab>
+            The bag has to be (.bag) file
+        To play the recording:
+            $ rosbag play <your bagfile.bag>
+        Please note that there are some settings where I can
+        specify with:
+            $ rosbag play -d 5 -r 2 -s 40 <your bagfile.bag>
+            meaning:
+            -d 5 : wait 5 secs after advertising the topic and before
+                    starting to publish
+            -s 40 : begin the playing from sec 40
+            -r 2 : publish the recorded messages twice as fast (rate)
+    
+34. Recording a subset of the data:
+    $ rosbag record -O subset /turtle1/cmd_vel /turtle1/pose
+    meaning:
+    -O subset : names the file as subset.bag
+    topic args : only record these two topics
+
+35. Reading messages from desired topics from a (.bag) file:
+    First, I need to know which topics I will read, I will decide 
+    according to:
+        $ time rosbag info <your bagfile.bag>
+    Then, I can use either of 2 ways: the 1st way is using 'rosbag' command,
+    but it is a little bit harder and slower !
+    Therefore, I will be using the 2nd way, which is using 'ros_readbagfile' command,
+    which is an executable file in python that I need to download (check the tutorial).
+    # To read the chosen topics and print them to stdout (terminal)
+        $ time ros_readbagfile <mybagfile.bag> [topic1] [topic2] [topic3] [...]
+
+    # To Write to the topics.yaml file withOUT printing to stdout
+        $ time ros_readbagfile <mybagfile.bag> [topic1] [topic2] [topic3] [...] > topics.yaml
+
+    # ( the preferred way, so you can easily see it is still running): write to the
+    # topics.yaml file AND print to stdout
+        $ time ros_readbagfile <mybagfile.bag> [topic1] [topic2] [topic3] [...] | tee topics.yaml
+
+    To watch the progress of the (.yaml) file being prepared (especially when we read a very big <bagfile.bag>)
+    In another terminal:
+        $ watch -n 1 'du -sk topics.yaml | awk '\''{printf "%.3f MiB %s\n", $1/1024, $2}'\'''
+
+    The resulting file will then be called "topics.yaml" or what ever I call it.
+    I can then navigate through it.
+    More (.yaml) file analysis can be found in the tutorial
+
+36. Check if roscore is running:
+    $ ps -ef | grep -i rosmaster
+    If the result is something like this, then it is running:
+    > 00:00:00 /usr/bin/python /opt/ros/kinetic/bin/rosmaster
+
+37. for debugging: use:
+    $ roswtf
+    This command can run without 'roscore'
+
+
