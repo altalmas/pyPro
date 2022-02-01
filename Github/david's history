@@ -1,0 +1,52 @@
+This is a history log of david's commands he used to make for me 
+a mavlink repository in my account.
+
+ 1881  git remote show origin
+ 1882  git remote set-url origin git@github.com:altalmas/mavlink
+ 1883  git remote show origin
+ 1884  ssh-keygen -trsa -b4096 -C "altalmas.abdallah@gmail.com"
+ 1885  cat /home/abdallah/.ssh/id_rsa.pub
+ 1886  git push
+ 1887  git checkout -b master
+ 1888  git branch -D master
+ 1889  git checkout -b master
+ 1890  git push -u origin master -f
+ 1891  history
+ 1892  git status
+ 1893  git diff
+ 1894  git add .
+ 1895  git commit
+ 1896  git log
+ 1897  git push
+ 1898  cd ../../../..
+ 1899  ls
+ 1900  .gitmodules
+ 1901  vim .gitmodules
+ 1902  git status
+ 1903  git log
+ 1904  git status
+ 1905  git add src/modules/mavlink/mavlink
+ 1906  git status
+ 1907  cd src/modules/mavlink/mavlink
+ 1908  ls
+ 1909  git status
+ 1910  ls
+ 1911  cd pymavlink
+ 1912  ls
+ 1913  git status
+ 1914  gitstash
+ 1915  git stash
+ 1916  cd ../../../..
+ 1917  cd ..
+ 1918  git status
+ 1919  cd Tools/jMAVSim/
+ 1920  ls
+ 1921  git status
+ 1922  git stash
+ 1923  cd ../..
+ 1924  git status
+ 1925  git push
+ 1926  git remote set-url origin git@github.com:altalmas/PX4-Autopilot
+ 1927  git push
+ 1928  history
+
