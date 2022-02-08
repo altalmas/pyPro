@@ -7,8 +7,8 @@ a mavlink repository in my account.
  1884  ssh-keygen -trsa -b4096 -C "altalmas.abdallah@gmail.com"
  1885  cat /home/abdallah/.ssh/id_rsa.pub
  1886  git push
- 1887  git checkout -b master
- 1888  git branch -D master
+ 1887  git checkout -b master        // create and checkout a branch called: 'master'
+ 1888  git branch -D master          // deletes the branch called: 'master'
  1889  git checkout -b master
  1890  git push -u origin master -f
  1891  history
