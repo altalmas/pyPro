@@ -1,12 +1,13 @@
 This is a history log of david's commands he used to make for me 
 a mavlink repository in my account.
 
- 1881  git remote show origin
- 1882  git remote set-url origin git@github.com:altalmas/mavlink
+
+ 1881  git remote show origin                                         // show the url with which my local repository is communicating
+ 1882  git remote set-url origin git@github.com:altalmas/mavlink      // change the url to my forked repository url
  1883  git remote show origin
- 1884  ssh-keygen -trsa -b4096 -C "altalmas.abdallah@gmail.com"
+ 1884  ssh-keygen -trsa -b4096 -C "altalmas.abdallah@gmail.com"       // make a unique ssh key
  1885  cat /home/abdallah/.ssh/id_rsa.pub
- 1886  git push
+ 1886  git push                      // gives an error because there is yet no branch created
  1887  git checkout -b master        // create and checkout a branch called: 'master'
  1888  git branch -D master          // deletes the branch called: 'master'
  1889  git checkout -b master
@@ -14,14 +15,14 @@ a mavlink repository in my account.
  1891  history
  1892  git status
  1893  git diff
- 1894  git add .
- 1895  git commit
+ 1894  git add .                     // git basic command : from (Working Directory > Staging Area)
+ 1895  git commit                    // git basic command : from (Staging Area >to> Local repository)
  1896  git log
- 1897  git push
+ 1897  git push                      // git basic command : from (Local repository >to> Remote repositoy 'github.com')
  1898  cd ../../../..
  1899  ls
- 1900  .gitmodules
- 1901  vim .gitmodules
+ 1900  .gitmodules         
+ 1901  vim .gitmodules               // a file in PX4-Autopilot directory showing the available submodules in PX4
  1902  git status
  1903  git log
  1904  git status
