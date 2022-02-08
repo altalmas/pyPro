@@ -56,3 +56,22 @@
 
 **Examples**
 
+1. Move the vehicle arround in the surroundings (local position frame):
+    pxh> commander takeoff
+    pxh> commander mode offboard
+    $ rostopic pub -r 5 /mavros/setpoint_position/local geometry_msgs/PoseStamped "header:
+  seq: 0
+  stamp:
+    secs: 0
+    nsecs: 0
+  frame_id: ''
+pose:
+  position:
+    x: 1.0
+    y: 0.0
+    z: 4.0
+  orientation:
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 0.0" 

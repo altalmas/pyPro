@@ -1,0 +1,4 @@
+find a text in files in directory:
+    $ grep -r <text_pattern_to_search> directory_or_path_to_search
+    $ grep -r 'hello world' ~/myDir/myBranch/Another
+    
