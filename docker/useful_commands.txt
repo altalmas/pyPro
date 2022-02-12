@@ -1,1 +1,4 @@
 here are some usefull Docker commnads:
+
+from here : https://www.youtube.com/watch?v=3c-iBn73dDE 
+
