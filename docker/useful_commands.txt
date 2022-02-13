@@ -1,4 +1,160 @@
-here are some usefull Docker commnads:
+here are some usefull Docker commands:
 
 from here : https://www.youtube.com/watch?v=3c-iBn73dDE 
 
+    $ docker pull redis       : pull the redis image
+    $ docker images           : check all the images available
+    $ docker run redis
+    $ doxker run redis -d     : run container in a detached mode
+    $ docker ps               : see all running containers
+    $ docker ps -a            : sell all running and not running container
+    $ docker stop <ID of the container>   : to stop a certain container
+    $ docker start <ID of the conatainer> : to start a container using its image
+    $ docker run redis:4.0    : pulls the image from the opensource online repository and runs it
+    --- The difference between run/start : is that start needs an image  : run needs a container and has more options ---
+    --- $ docker run is to create a new container : docker start is to start a stopped container ---
+
+    $ docker run -p6000:6379 -d redis : runs the redis container and attaching it to port 6000 of the host computer
+                                     note here that the value of 6379 is the number of port the redis container is
+                                     communicating through. We have found this value by running the redis container and 
+                                     checking the value when we do : $ docker ps
+    $ docker run -p6001:6379 -d redis:4.0     : runs the older version of redis attached to another host port number (6001)
+    
+    $ docker logs <ID of the container>       : check container log for debugging problems
+    $ docker run -d -p6001:6379 --name redis-older redis:4.0    : specify a name for the container running (checked through $ docker ps)
+    $ docker logs redis-older
+    
+    $ docker exec -it <ID of the conatainer> /bin/bash     : gets me inside the container environment (not the host anymore), where I can check its settings and
+                                                             environmental variables.
+                                                             note : that this will let me inside the container as a root user. I can navigate/print/moderate
+                                                             the configuration through commands like: $ cd $ pwd $ ls $ env 
+                                                           : -it means interactive terminal 
+                                                           : some containers do not have a bash, then we should use : /bin/sh (stands for shell)
+                                                           : exit : to exit the container environment and get back to the host machine
+
+    $ docker rm <ID of the container>         : to delete a container
+    $ docker rmi <ID of the image>            : to delete an image
+
+    $ docker network ls                       : lists the docker networks available
+    $ docker network create mongo-network     : creates a new docker network called 'mongo-network'
+    $ docker network ls
+    $ docker run -p 27017:27017 -d -e MONGO_INITDB_ROOT_USERNAME=admin -e MONGO_INITDB_ROOT_PASSWORD=password --name mongodb --net mongo-network mongo 
+    Another way :
+    $ docker run -d \
+    > -p 27017:27017 \
+    > -e MONGO_INITDB_ROOT_USERNAME=admin \      : -e means environmental variable : this is taken from the online documentation of the mongo container
+    > -e MONGO_INITDB_ROOT_PASSWORD=password \   : on how to connect it to a certain network and give it some variables
+    > --name mongodb \
+    > --net mongo-network \
+    > mongo <enter>
+
+    $  docker run -d \
+    > -p 8081:8081 \
+    > -e ME_CONFIG_MONGODB_ADMINUSER=admin \ 
+    > -e ME_CONFIG_MONGODB_ADMINPASSWORD=password \ 
+    > --net mongo-network \
+    > --name mongo-express \
+    > -e ME_CONFIG_MONGODB_SERVER=mongodbb \      : this is an important setting, where we specify the name of the container we are connecting to
+    > mongo-express <enter>
+
+    --- now mongodb and mongo-express are connected . we can create a data base by visiting: '0.0.0.0:8081' : call it user-database
+    --- watch video from 01:24:00 on youtube.
+
+    ---- Docker Compose ----
+    mongo-docker-compose.yaml           // we do not have to specify the network, because docker-compose will take care of that automatically
+        version:'3'
+        services:                       // lists the containers we want to run
+            mongodb:
+                image:mongo
+                ports:
+                    -27017:27017
+                environment:
+                    -MONGO_INITDB_ROOT_USERNAME=admin
+                    -MONGO_INITDB_ROOT_PASSWORD=password
+            
+            mongo-express:
+                image:mongo-express
+                ports:
+                    -8080:8080
+                environment:
+                    -ME_CONFIG_MONGODB_ADMINUSER=admin
+                    -ME_CONFIG_MONGODB_ADMINPASSWORD=password
+                    -ME_CONFIG_MONGODB_SERVER=mongodb
+        
+    $ docker-compose -f mongo-docker-compose.yaml up    : runs all the containers in the file : -f means file
+    $ docker-compose -f mongo-docker-compose.yaml down  : shut down all containers and removes the network
+
+    ---- Docker file ----
+    save as : Dockerfile
+    FROM node:13-alpine
+
+    ENV MONGO_DB_USERNAME=admin \
+        MONGO_DB_PWD=password
+    
+    RUN mkdir -p /home/app
+
+    COPY . /home/app                    : the first input (.) is a directory in the host machine
+                                        : the second input (/home/app) is a directory in the container
+
+    CMD ["node", "/home/app/server.js"]
+
+    --- building an image from a docker file ---
+    $ docker build -t my-app:1.0 . 
+    $ docker run my-app:1.0
+
+    ---- Create a private docker repository on AWS ----
+    1. First I have to register my self of a docker registry (Amazon has a service called AWS > make an account there and create a repository and calle it my-app)
+    2. login to your account by following the guide of the registry website
+    3. push the image to your repository:
+        3.1. first you need to tag the image:
+            For using AWS :
+                $ docker tag my-app:1.0 664574038682.dkr.ecr.eu-central-1.amazonaws.com/my-app:1.0
+        3.2. push the image
+            For using AWS :
+                $ docker push 664574038682.dkr.ecr.eu-central-1.amazonaws.com/my-app:1.0
+
+    4. $ docker pull <registryDomain>/<imageName>:<tag>
+        In AWS ECR:
+            $ docker pull 520697001743.dkr.ecr.eu-central-1.amazonaws.com/my-app:1.0
+        Or instead of that, we can include it in the .yaml file for docker-compose to pull it and run it :
+        version:'3'
+        services:                       // lists the containers we want to run
+            my-app:
+                image: 
+                    -664574038682.dkr.ecr.eu-central-1.amazonaws.com/my-app:1.0
+                ports:
+                    -3000:3000
+
+            mongodb:
+                ......
+            
+            mongo-express:
+                ......
+        
+        $ docker-compose -f mongo-docker-compose.yaml up
+
+    ---- Docker Volumes ----
+      in docker-compose : 
+      version:'3'
+        services:                       // lists the containers we want to run
+            my-app:
+                ....
+
+            mongodb:
+                image: mongo
+                ports:
+                    -27017:27017
+                volumes:
+                    - mongo-data:/data/db        //    <reference name>:<directory in the container>
+            
+            mongo-express:
+                ......
+        
+        volumes:
+            mongo-data                                     // beneficial if containers share the data
+                driver: local
+
+    ---- Docker Volume Locations ----
+    Windows: C:\ProgramData\docker\volumes
+    Linux  : /var/lib/docker/volumes
+    Mac    : /var/lib/docker/volumes
