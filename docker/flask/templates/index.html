@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title> My Application</title>
+{%endblock%}
+
+{% block body %}
+<div class="content">
+
+    <form class="form-inline" action="/action_page.php">
+        <label for="email">Email:</label>
+        <input type="email" id="email" placeholder="Enter email" name="email">
+        <label for="pwd">Password:</label>
+        <input type="password" id="pwd" placeholder="Enter password" name="pswd">
+        <label>
+          <input type="checkbox" name="remember"> Remember me
+        </label>
+        <button type="submit">Submit</button>
+    </form>
+
+    <h1 style="text-align: center"> Task Master </h1>
+    {% if tasks | length < 1%}
+    <h4 style="text-align: center"> There are no tasks, Create one below </h4>
+    {% else %}
+
+    <table calss="center">
+        <tr>
+            <th>Task</th>
+            <th>Added</th>
+            <th>Actions</th>
+        </tr>
+        {% for task in tasks%}
+            <tr>
+                <td>{{ task.content }}</td>
+                <td>{{ task.date_created.date() }}</td>
+                <td>
+                    <a href="/delete/{{task.id}}">Delete</a>
+                    <br>
+                    <a href="/update/{{task.id}}">Update</a>
+                </td>
+            </tr>
+        
+        {% endfor %}
+    </table>
+    {% endif %}
+
+    <form class="form-inline" action="/" method="POST">
+        <h2>Tasks Input</h2>
+        <input type="text" name="content" id="content">
+        <input type="submit" value="Add Task">
+    </form>
+
+</div>
+{%endblock%}
