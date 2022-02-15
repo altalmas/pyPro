@@ -41,6 +41,11 @@ Now I need to stream the modified frame
 This is done from : 
     https://forums.developer.nvidia.com/t/opencv-video-writer-to-gstreamer-appsrc/115567/21 
 
+code in :
+    1. (piCam) : /home/abdallah/Desktop/pyPro/NVIDIA/deepLearning-13-openCV-Gst-piCam-udp-60fps-fast.py
+    2. (webCam) : /home/abdallah/Desktop/pyPro/NVIDIA/deepLearning-13-openCV-Gst-webCam-udp-60fps-fast.py
+    3. (pi and web Cams together) : /home/abdallah/Desktop/pyPro/NVIDIA/deepLearning-13-openCV-Gst-bothCams-udp-60fps-fast.py
+
 ----------------------------------
 
 

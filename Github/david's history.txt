@@ -6,6 +6,9 @@ a mavlink repository in my account.
  1882  git remote set-url origin git@github.com:altalmas/mavlink      // change the url to my forked repository url
  1883  git remote show origin
  1884  ssh-keygen -trsa -b4096 -C "altalmas.abdallah@gmail.com"       // make a unique ssh key
+ // Note: after generating the key, I need to add it to my github account:
+    > settings > ssh and gpg keys >> add it
+ // then I can do on the same computer : git clone git@github.com:*** repository name ***
  1885  cat /home/abdallah/.ssh/id_rsa.pub
  1886  git push                      // gives an error because there is yet no branch created
  1887  git checkout -b master        // create and checkout a branch called: 'master'
