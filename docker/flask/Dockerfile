@@ -1,12 +1,34 @@
-from alpine:latest
+# FROM python:3.8
 
-RUN apk add --no-cache  python3-dev pip3
+# WORKDIR /home/myApp
 
-WORKDIR /myApp
+# COPY . /home/myApp
 
-COPY . /myApp
+# #RUN pip3 --no-cache-dir install -r requirements.txt
+# RUN pip install -r requirements.txt
 
-RUN pip3 --no-cache-dir install -r requirements.txt
+# EXPOSE 5000
+
+# ENTRYPOINT ["python3"]
+
+# CMD ["app.py"]
+
+FROM python:alpine3.7
+
+WORKDIR /home/myApp
+
+COPY . /home/myApp
+
+RUN apk update && apk upgrade
+
+RUN apk add gcc
+
+RUN apk add curl
+
+# This following line is important
+RUN apk add build-base 
+
+RUN pip install -r requirements.txt
 
 EXPOSE 5000
 
