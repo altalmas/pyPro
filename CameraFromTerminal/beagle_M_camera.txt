@@ -2,10 +2,11 @@
 Steps:
 1. power up the jetson in the vehicle
 2. on the host machine (my laptop):
-    $ cd /etc/openvpn
-    $ sudo mv client.config client_mine.config                 # to be renamed later and used later again
-    $ sudo mv client_M2.config client.config                   # to be used now
-    $ sudo systemctl restart openvpn@client
+     cd /etc/openvpn
+     sudo mv client.conf client_mine.ovpn
+
+     sudo mv client_M2.ovpn client.conf             
+     sudo systemctl restart openvpn@client
 
 3. in a terminal of the host machine:
 
@@ -23,3 +24,9 @@ Steps:
 
     Beagle M5 :
 
+4. after finishing, on the host machine:
+     cd /etc/openvpn
+     sudo mv client.conf client_M2.ovpn   
+                 
+     sudo mv client_mine.ovpn client.conf              
+     sudo systemctl restart openvpn@client
