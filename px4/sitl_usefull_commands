@@ -1,0 +1,14 @@
+Open the simulation in (gazebo/jmavsim):
+    $cd ~/Developers/PX4-Autopilot_myFork
+    $ make px4_sitl gazebo
+    $ make px4_sitl gazebo_standard_vtol
+
+Commander:
+    $ commander takeoff
+    $ commander land
+    $ commander mode auto:rtl
+
+Param:
+    $ param show
+    $ param set RTL_TYPE 2
+
