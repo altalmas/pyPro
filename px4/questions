@@ -1,6 +1,0 @@
-Q0: how to debug ? I mean how to go through modules and functions in a raw?
-
-Q1: in src/modules/navigator/mission.cpp/set_mission_item ( line 680)
-    _navigator-> set_can_loiter_at_sp(true);
-
-    what happens next ? I mean where is the code that makes the loiter.cpp activate?

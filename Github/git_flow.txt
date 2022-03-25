@@ -1,0 +1,5 @@
+see : http://danielkummer.github.io/git-flow-cheatsheet/ 
+
+
+git checkout develop                          : always begin from the /develop unless the new feature depends on another feature.
+git flow feature start my_feature_name

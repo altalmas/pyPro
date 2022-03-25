@@ -1,0 +1,115 @@
+* Tracing the :
+    (local_position_setpoint)       : the following trace is related to landing yaw setpoint
+
+    Summary : there are 2 ways to change the yaw_sp for landing:
+    1.  rtl.cpp
+        //home_landing_position.yaw = 0.0f;  // modify this for changing yaw_sp landing
+
+    2. Commander.cpp
+        using the MAVLINK commands to change the /home_position
+        mavlink command : MAV_CMD_DO_SET_HOME
+        https://discuss.px4.io/t/how-to-set-home-position/7613 
+
+
+    ---------Commander.cpp----------
+        const vehicle_local_position_s &lpos = _local_position_sub.get();
+        home_position_s home{};
+        fillLocalHomePos(home, lpos);
+
+        const vehicle_global_position_s &gpos = _global_position_sub.get();
+        fillGlobalHomePos(home, gpos);
+    
+                ^
+                |
+    ---------Commander.hpp/cpp----------
+	uORB::PublicationData<home_position_s>			_home_pub{ORB_ID(home_position)};
+
+                ^
+                |
+
+    ---------navigator.cpp----------
+	uORB::Subscription _home_pos_sub{ORB_ID(home_position)};		/**< home position subscription */
+
+                ^
+                |
+
+    ---------precland.cpp----------
+bool
+PrecLand::switch_to_state_fallback()
+{
+	PX4_WARN("Falling back to normal land.");
+	position_setpoint_triplet_s *pos_sp_triplet = _navigator->get_position_setpoint_triplet();
+                    ...
+	// recover the yaw from rtl destination as well
+	pos_sp_triplet->current.yaw = _fallback_pos.yaw;
+
+                |
+                v
+
+    ---------rtl.cpp----------
+
+    home_position_s &home_landing_position = *_navigator->get_home_position();
+	//home_landing_position.yaw = 0.0f;  // modify this for changing yaw_sp landing
+
+    LandPosition lp;
+	// ultimate landing yaw_sp
+	lp.yaw = _destination.yaw;
+
+    else if (_mission_item.land_precision == 3){
+        _navigator->get_precland()->set_fallback_position(lp);
+    }
+
+                ^
+                |
+
+    ---------somthing----------
+    I guess this has to be in the navigator.cpp
+    ---------somthing----------
+
+                ^
+                |
+    ---------navigator.h----------
+	struct position_setpoint_triplet_s *get_position_setpoint_triplet() { return &_pos_sp_triplet; }
+
+                ^
+                |
+    ---------navigator_main.cpp----------
+	_pos_sp_triplet_pub.publish(_pos_sp_triplet);
+
+                ^
+                |
+    ---------FlightTaskAuto.cpp----------
+	_yaw_setpoint = _sub_triplet_setpoint.get().current.yaw;
+
+                ^
+                |
+    ---------FlightModeManager.cpp----------
+	setpoint = _current_task.task->getPositionSetpoint();
+                ...
+    _trajectory_setpoint_pub.publish(setpoint);
+
+                ^
+                |
+    ---------MulticopterPositionControl.cpp----------
+	_trajectory_setpoint_sub.update(&_setpoint);
+                ...
+    _control.setInputSetpoint(_setpoint);
+
+                ^
+                |
+    ---------PositionControl.cpp----------
+    void PositionControl::setInputSetpoint(const vehicle_local_position_setpoint_s &setpoint)
+    {
+                ...
+	_yaw_sp = setpoint.yaw;
+
+    void PositionControl::getLocalPositionSetpoint(vehicle_local_position_setpoint_s &local_position_setpoint) const
+    {
+                ...
+	local_position_setpoint.yaw = _yaw_sp;
+
+                ^
+                |
+    ---------MulticopterPositionControl.cpp----------
+    _local_pos_sp_pub.publish(local_pos_sp);
+

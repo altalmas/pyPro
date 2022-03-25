@@ -1,0 +1,19 @@
+Some explanations about px4 from abdallah:
+
+    * Flying a mission in QGC:
+        Main working branch : (PX4-Autopilot/modules/navigator)
+            there are multiple modules to look at: 
+                1. navigator_main.cpp
+                2. mission_block.cpp
+                3. mission.cpp
+                    and each mission type I specify in QGC is then of importance for me:
+                    For example, 
+                    1. loiter.cpp
+                    2. rtl.cpp
+                    3. land.cpp
+                    4. takeoff.cpp
+
+    * 
+
+
+    

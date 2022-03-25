@@ -1,0 +1,19 @@
+Q0: how to debug ? I mean how to go through modules and functions in a raw?
+
+Q1: when the vehicle is returning (RLT), first when it finished the missoin it goes into loiter, 
+and after a moment, it goes into RLT and says (RTL: landing at home position). so the question is
+from where does the rtl.cpp begin?
+
+Q2: what is the differece between NAV_CMD_*** and VEHCILE_CMD_*** ? (when to use this, when to use that?)
+
+
+
+------------- David Answered -----------
+
+------------- self Answered-------------
+Q1: in src/modules/navigator/mission.cpp/set_mission_item ( line 680)
+    _navigator-> set_can_loiter_at_sp(true);
+
+    what happens next ? I mean where is the code that makes the loiter.cpp activate?
+        A1: if you read after it in the else-statement: setLoiterItemFromCurrentPositionSetpoint (mission_block.cpp)
+
