@@ -13,7 +13,9 @@ Some explanations about px4 from abdallah:
                     3. land.cpp
                     4. takeoff.cpp
 
-    * 
+
+    * the uORB topic : vehicle_local_position_sp is to considered when 
+        wanting to know the where the vehicle going in xyz,yaw,attitude
 
 
     

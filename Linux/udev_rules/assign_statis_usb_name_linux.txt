@@ -1,0 +1,53 @@
+From : https://msadowski.github.io/linux-static-port/ 
+
+What are we doing here?
+    Changing the name of a usb port to be static, so that
+    each time the device usb is connected, it 
+    will be renamed accordingly : for example 
+    /dev/myDevice
+
+steps:
+    1. plugin the usb
+    
+    2. check the usb name using:
+        $ lsusb
+
+    3. After knowing which /dev/ttyACM* my usb is:
+        Assuming (/dev/ttyACM0):
+
+    4. Check the attributes of the usb using either of these commands:
+        $ sudo udevadm info /dev/ttyACM0
+        or 
+        $ udevadm info --name=/dev/ttyACM0 --attribute-walk
+
+        here I can check for unique attributes for my usb, like:
+        ATTRS{idVendor}=="2341"
+        ATTRS{idProduct}=="8037"
+        ATTRS{manufacturer}=="Arduino LLC"
+        ... and so on ...
+
+    5. Create a file in /etc/udev/rules.d/
+    and name it as follow:
+        99-myDevice.rules
+
+    6. write either of the following lines in the rule files:
+    
+    ```
+    KERNEL=="ttyACM0", ATTRS{idVendor}=="2341", ATTRS{idProduct}=="8037", ATTRS{manufacturer}=="Arduino LLC", SYMLINK+="myDevice"
+    ```
+    or
+
+    ```
+    ACTION=="add", ATTRS{idVendor}=="2341", ATTRS{idProduct}=="8037", ATTRS{manufacturer}=="Arduino LLC", SYMLINK+="myDevice"
+    ```
+
+    7. reload the udevadm rules:
+        $ udevadm control --reload-rules
+
+    8. Disconnect and Reconnect your usb
+
+    9. if all went good, then check the name of the usb
+        after reconnecting it:
+            $ ls /dev/myDev*
+
+    10. Done
