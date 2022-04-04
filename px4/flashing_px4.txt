@@ -1,0 +1,20 @@
+refer to : 
+    https://docs.px4.io/master/en/dev_setup/building_px4.html
+
+
+
+    for flashing the small quadrotor (cube_black):
+
+        1. 
+        $ cd Developers/PX4-Autopilot_beagle/PX4_Autopilot
+
+        2.
+        $ make px4_fmu-v3_rtps upload
+
+        3. the terminal will say : waiting for the bootloader:
+        here you have to reboot the pixhawk , you have 2 ways:
+            1. unplug and plug the pixhawk from the usb
+            or
+            2. from QGroundControl: 
+                nxh> reboot 
+
