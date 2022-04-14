@@ -11,3 +11,16 @@ How up update my local repository
     4. $ git pull upstream master
     5. Done
 
+
+------
+for beagle PX4-Autopilot:
+* I could not fork the repository, therefore, I make a new repository called PX4-Beagle in my account.
+* if I want to begin a new feature:
+    1. I need to do it with git flow
+    2. after finishing the git flow, now I need to update my (develop) branche by: 
+        $ git pull git@github.com:BeagleSystems/PX4-Autopilot.git develop
+
+    3. now I need to update my (new feature's) branch from my updated (develop) branch:
+
+    4. git squash the commits:
+        $ git rebase -i HEAD~3        : 3 is the number of commits you have committed in the new feature's branch
