@@ -22,5 +22,5 @@ for beagle PX4-Autopilot:
 
     3. now I need to update my (new feature's) branch from my updated (develop) branch:
 
-    4. git squash the commits:
+    4. git squash the commits:   https://www.youtube.com/watch?v=viY1BbKZhSI 
         $ git rebase -i HEAD~3        : 3 is the number of commits you have committed in the new feature's branch
