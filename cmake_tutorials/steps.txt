@@ -29,6 +29,8 @@ Explanation:
             myFolder
                 |- src
                 |   |- main.cpp
+                |   |- source1.cpp
+                |   |- source2.cpp
                 |- CMakeLists.txt
 
         1. create (CMakeLists.txt) file:
