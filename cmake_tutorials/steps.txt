@@ -45,9 +45,9 @@ Explanation:
 
                                             add_executable(
                                                 sample                                                 # name of the executable that we want to produce
-                                                main.cpp                                               # source files
-                                                source1.cpp                                            # source files
-                                                source2.cpp                                            # source files
+                                                src/main.cpp                                           # source files
+                                                src/source1.cpp                                            # source files
+                                                src/source2.cpp                                            # source files
                                             )       
                                 '''
 
@@ -67,4 +67,3 @@ Explanation:
         4. run the executable
             $ ./sample
 
-            
