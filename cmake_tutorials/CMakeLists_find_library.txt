@@ -1,0 +1,33 @@
+# Also, we can add an external library using 'find_library()'
+there we will have :
+
+            hello_project
+                |- CMakeLists.txt
+                |- main.cpp
+                |- blah
+                |   |- Blah.cpp
+                |   |- include
+                |   |    |- Blah.h
+
+
+cmake_minimum_required(VERSION 3.10)
+
+set(CMAKE_CXX_STANDARDS 17)
+set(CMAKE_CXX_STANDARDS_REQUIRED ON)
+
+project(hello VERSION 1.0)
+
+find_library(ZLIB libz.a REQUIRED PATHS /usr/lib/libz.a)        # ZLIB : variable created to refer to the library found
+                                                                # libz.a : source file of the library
+                                                                # REQUIRED : I dont know :)
+                                                                # PATHS /usr/lib/libz.a : specifying the PATH of the library to find
+
+set(ZLIB_INCLUDE_DIR /usr/include)          # variable created to refer to the library include directory (where .h files are)
+
+
+add_library(mylib STATIC blah/Blah.cpp)
+target_include_directories(mylib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/blah/include)       # the blah/include has the .h files
+
+add_executable(hello main.cpp)
+target_include_directories(hello PUBLIC ${ZLIB_INCLUDE_DIR})                            # specify the (include) directory of the library
+target_link_libraries(hello PUBLIC mylib ${ZLIB})

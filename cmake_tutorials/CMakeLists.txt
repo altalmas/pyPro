@@ -13,7 +13,14 @@ project(sample)         # project name
 
 add_executable(
     sample                  # name of the executable that we want to produce
-    main.cpp                # source files
-    source1.cpp             # source files
-    source2.cpp             # source files
+    src/main.cpp                # source files
+    src/source1.cpp             # source files
+    src/source2.cpp             # source files
 )       
+# OR: we can recursively add all .cpp files inside a directory:
+            # file (GLOB_RECURSE SRC_FILES src/*.cpp)         # creates a variable (SRC_FILES) that has all (.cpp) files in the (src) in it
+            # add_executable(
+            #     sample
+            #     ${SRC_FILES}
+            # )
+

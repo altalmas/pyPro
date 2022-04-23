@@ -1,0 +1,24 @@
+# Also, we can use 'add_library(lib_name STATIC/DYNAMIC <library_source_code_files>)' to replace 'add_executable()'
+# Then, we include the directories of the library using 'target_include_directories(lib_name PUBLIC/PRIVATE/* ${CMAKE_CURRENT_}/lib_directory/include)'
+# After that, we link the added library in the main executable by using 'target_link_libraries()'
+
+            hello_project
+                |- CMakeLists.txt
+                |- main.cpp
+                |- blah
+                |   |- Blah.cpp
+                |   |- include
+                |   |    |- Blah.h
+
+cmake_minimum_required(VERSION 3.10)
+
+set(CMAKE_CXX_STANDARDS 17)
+set(CMAKE_CXX_STANDARDS_REQUIRED ON)
+
+project(hello VERSION 1.0)
+
+add_library(mylib STATIC blah/Blah.cpp)
+target_include_directories(mylib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/blah/include)       # the blah/include has the .h files
+
+add_executable(hello main.cpp)
+target_link_libraries(hello PUBLIC mylib)
