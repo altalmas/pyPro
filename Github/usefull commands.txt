@@ -1,16 +1,34 @@
 How to clone a repository
     1. Go to a directory
-    2. $ cd ~/...**.../myDirectory
-    3. git clone https://github.com/altalmas/pyPro.git
-    4. Done
+        $ cd ~/...**.../myDirectory
+    2. git clone https://github.com/altalmas/pyPro.git
 
 How up update my local repository
     1. go to the local directory where the repository is there
-    2. $ cd ~/...**.../myDirectory
+        $ cd ~/...**.../myDirectory
     3. $ git remote add upstream https://github.com/altalmas/pyPro.git
     4. $ git pull upstream master
     5. Done
 
+How to pull a repository and put its head at a previous commit (pull an old-version)
+    1. clone the repo where you want:
+        $ git clone git@github.com:altalmas/myRepo.git
+    2. in the repo directory:
+        $ git reset --hard 687f1704e9aca473be62428f7870efdc94731c5b        : this string is the commit hash
+
+How to add a remote to my local repository?
+    1. add the remote:
+        $ git remote add my_new_remote git@github.com:altalmas/myRepo.git
+    2. show all available remotes:
+        $ git remote show       or      $ git remote -vv
+    3. push to a specific remote
+        $ git push my_remote_name
+    4. add the remote as a default upstream (so you can push directly to this new remote)
+        $ git push --set-upstream my_new_remote my_branch_name
+    5. push directly
+        $ git push
+    6. remove a remote
+        $ git remote remove my_new_remote
 
 ------
 for beagle PX4-Autopilot:
