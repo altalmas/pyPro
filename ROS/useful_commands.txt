@@ -75,7 +75,7 @@ commands 36-37 : http://wiki.ros.org/ROS/Tutorials/Getting%20started%20with%20ro
     $ rostopic hz /turtles1/pose
     Now we know that the turtlesim is publishing data about out turtle at the rate of ~60 hz
 
-15. To get in depth infromation about a topic, we can use a conjunction
+15. To get in depth information about a topic, we can use a conjunction
     $ rostopic type /turtle1/cmd_vel | rosmsg show
 
 16. Plot data being published on the /turtle1/pose using rqt_plot

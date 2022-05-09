@@ -1,4 +1,6 @@
 import cv2
+import numpy as np
+import os
 
 dispW = 320*2
 dispH = 240*2
@@ -7,7 +9,10 @@ flip = 0 # or 2
 camSet='nvarguscamerasrc !  video/x-raw(memory:NVMM), width=3264, height=2464, format=NV12, framerate=21/1 ! nvvidconv flip-method='+str(flip)+' ! video/x-raw, width='+str(dispW)+', height='+str(dispH)+', format=BGRx ! videoconvert ! video/x-raw, format=BGR ! appsink'
 
 #cam = cv2.VideoCapture(camSet) # Rasperri Pi Camera
-cam = cv2.VideoCapture(1) # for webcam
+cam = cv2.VideoCapture(0) # for webcam
+
+dir_path = os.path.dirname(os.path.realpath(__file__))
+print(dir_path)
 
 face_cascade = cv2.CascadeClassifier('cascade/face.xml')
 eye_cascade = cv2.CascadeClassifier('cascade/eye.xml')
@@ -31,6 +36,8 @@ while True:
 
  #   for (x,y,w,h) in smiles:
  #       cv2.rectangle(frame, (x,y), (x+w, y+h), (255,0,0), 3)
+
+    frame = np.fliplr(frame) # mirrors (corrects) the image
 
     cv2.imshow('piCam', frame) # --- Show the Frame
     cv2.moveWindow('piCam', 0, 0)

@@ -12,7 +12,7 @@ font = cv2.FONT_HERSHEY_SIMPLEX
 Names = []
 Encodings = []
 
-with open('company.pkl', 'rb') as f:
+with open('company3.pkl', 'rb') as f:
     Names = pickle.load(f)
     Encodings = pickle.load(f)
 

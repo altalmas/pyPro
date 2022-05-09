@@ -9,7 +9,7 @@ print(cv2.__version__)
 Encodings = []
 Names = []
 
-image_dir = '/home/abdallah/Desktop/pyPro/faceRecognizer/demoImages/known'
+image_dir = '/home/abdallah/Desktop/pyPro/faceRecognizer/companyImages/known'
 for root, dirs, files in os.walk(image_dir): # walks through all the files and directories
     #print(files)
     for file in files:
@@ -28,6 +28,6 @@ print(Names) # print encoded names to double check
 # train.pkl : is the name of file we create
 # wb : stands for write bites
 # f : is the file we interact with when we write/read to/from a file
-with open('train.pkl', 'wb') as f:
+with open('company3.pkl', 'wb') as f:
     pickle.dump(Names,f) # save the learnt Names in f
     pickle.dump(Encodings,f) # save the learnt Encodings in f

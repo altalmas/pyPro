@@ -30,6 +30,22 @@ How to add a remote to my local repository?
     6. remove a remote
         $ git remote remove my_new_remote
 
+Problem:
+Here I mistakenly added (git add .) the .vscode files(>100 Mb) in my repo, and then (git commit -m "my_commit").
+but then could not (git push), because the added and committed files where very big.
+Solution:
+Reset the branch to the previous commit:
+    1. make sure you make a copy of the repository (local copy). This is not to delete the new code I wanted to add
+    2. reset the branch to a previous commit
+        $git reset --hard <remote>/<branch>
+        i.e.
+        $git reset --hard abdallah/devel
+    3. copy and past the modified files from the (newly created copied repo) to the original one.
+    4. add/commit/push
+        $ git add .
+        $ git commit -m "my_commit"
+        $ git push
+        
 ------
 for beagle PX4-Autopilot:
 * I could not fork the repository, therefore, I make a new repository called PX4-Beagle in my account.
