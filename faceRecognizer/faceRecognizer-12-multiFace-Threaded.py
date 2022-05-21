@@ -37,12 +37,12 @@ dispH = 240*1
 flip = 2 # or 2
 camSet='nvarguscamerasrc !  video/x-raw(memory:NVMM), width=3264, height=2464, format=NV12, framerate=21/1 ! nvvidconv flip-method='+str(flip)+' ! video/x-raw, width='+str(dispW)+', height='+str(dispH)+', format=BGRx ! videoconvert ! video/x-raw, format=BGR ! appsink'
 
-cam1 = vStream(1, dispW, dispH, 0.3)
-cam2 = vStream(camSet, dispW, dispH, 0.3)
+cam1 = vStream(0, dispW, dispH, 0.3)
+#cam2 = vStream(camSet, dispW, dispH, 0.3)
 
 startTime = time.time()
 
-scaleFactor = 0.4
+scaleFactor = 0.5
 
 while True:
     try:
@@ -51,11 +51,11 @@ while True:
         cv2.putText(myFrame1, 'webCam', (5,20), font, 0.5, (0,255,255), 1)
         cv2.rectangle(myFrame1, (0,35), (80,70), (0,0,255), -1)
         cv2.putText(myFrame1, str(round(fps,1)), (5,60), font, 0.5, (0,255,255), 1)
-        myFrame2 = cam2.getFrame()
-        cv2.rectangle(myFrame2, (0,0), (60,35), (0,0,255), 2)
-        cv2.putText(myFrame2, 'piCam', (5,20), font, 0.5, (0,255,255), 1)
+        #myFrame2 = cam2.getFrame()
+        #cv2.rectangle(myFrame2, (0,0), (60,35), (0,0,255), 2)
+        #cv2.putText(myFrame2, 'piCam', (5,20), font, 0.5, (0,255,255), 1)
 
-        myFrame3 = np.hstack((myFrame1, myFrame2)) # horizontally stack
+        myFrame3 = np.hstack((myFrame1, myFrame1)) # horizontally stack
 
         frameRGB = cv2.cvtColor(myFrame3, cv2.COLOR_BGR2RGB)
         frameRGBSmall = cv2.resize(frameRGB, (0,0), fx = scaleFactor, fy = scaleFactor)
@@ -85,8 +85,9 @@ while True:
     except:
         print('frame not available')
     if cv2.waitKey(1) == ord('q'):
-        cam1.capture.release()
-        cam2.capture.release()
-        cv2.destroyAllWindows()
-        exit(1)
-        #break
+        break
+
+cam1.capture.release()
+#cam2.capture.release()
+cv2.destroyAllWindows()
+exit(1)

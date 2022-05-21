@@ -34,7 +34,7 @@ while True:
         name = 'Unknown Person'
         matches = face_recognition.compare_faces(Encodings, face_encoding)
         if True in matches:
-            first_match_index = matches(True)
+            first_match_index = matches[True] # [True] needs to be in square brackets
             name = Names[first_match_index]
         top = top *3 # resize back to original
         right = right * 3
