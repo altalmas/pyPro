@@ -1,0 +1,34 @@
+* Normally, the px4_sitl ports are connected as follows:
+
+    PX4_sitl        ------ udp 14540 ------>         offboard/MAVROS/MAVSDK
+
+    PX4_sitl        ------ udp 14550 ------>         QGC
+
+    PX4_sitl       <------ tcp 4560  ------>         Simulation
+
+
+
+* But we can use (mavlink-router) to stream on specific channels:
+
+    1. set up (mavlink-router) repository from https://github.com/mavlink-router/mavlink-router 
+
+    2. on a shell:
+        $ mavlink-routerd -e 127.0.0.1:14551 -e 127.0.0.1:14552 0.0.0.0:14550
+
+        this command would stream the data from port 14550 to both 14551 and 14552, where
+        we can then use the new ports numbers for QGC and/or offboard/MAVROS/MAVSDK
+
+        Illustration: 
+
+                       /-------> udp 14551      : offboard/MAVROS/MAVSDK
+        udp 14550  ----
+                       \-------> udp 14552      : QGC  
+
+    3. To connect QGC with 14552 : 
+        open QGC > Application Settings > Comm Links > Add > [set the configuration for 127.0.0.1:14552]
+
+    4. To connect MAVSDK with 14551 :
+        $ cd ~/Developers/MAVSDK/examples/takeoff_and_land
+        $ cmake -Bbuild -H.
+        $ cmake --build build -j4
+        $ build/takeoff_and_land udp://:14551

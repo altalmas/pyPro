@@ -1,0 +1,9 @@
+
+To use the MAVSDK C++ library examples:
+
+    1. To connect MAVSDK with px4 using port 14540 (default port number with px4) :
+        $ cd ~/Developers/MAVSDK/examples/takeoff_and_land
+        $ cmake -Bbuild -H.
+        $ cmake --build build -j4
+        $ build/takeoff_and_land udp://:14540
+
