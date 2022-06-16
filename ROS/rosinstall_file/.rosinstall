@@ -1,0 +1,42 @@
+repositories:
+  beaglesystems/payload_interfaces:
+    type: git
+    url: git@github.com:BeagleSystems/payload_interfaces
+    version: ros1
+  beaglesystems/beagle_interfaces:
+    type: git
+    url: git@github.com:BeagleSystems/beagle_interfaces
+    version: ros1
+  px4_ros_com:
+    type: git
+    url: git@github.com:BeagleSystems/px4_ros_com
+    version: ros1
+  px4_msgs:
+    type: git
+    url: git@github.com:BeagleSystems/px4_msgs
+    version: ros1
+  mavros:
+    type: git
+    url: git@github.com:BeagleSystems/mavros.git
+    version: develop
+  mavlink:
+    type: git
+    url: https://github.com/BeagleSystems/mavlink-gbp-release.git
+    # version: release/noetic/mavlink/2021.7.7-1
+    version: master
+  cv_camera:
+    type: git
+    url: git@github.com:BeagleSystems/cv_camera
+    version: develop
+  image_common:
+    type: git
+    url: git@github.com:BeagleSystems/image_common
+    version: noetic-devel
+  ros_comm:
+    type: git
+    url: git@github.com:BeagleSystems/ros_comm
+    version: noetic-devel
+  beaglesystems/camera_manager/infos:
+    type: git
+    url: git@github.com:BeagleSystems/camera_information
+    version: main

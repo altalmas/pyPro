@@ -1,0 +1,10 @@
+http://wiki.ros.org/rosinstall_generator
+
+the .rosinstall file is an example only
+
+after that, we populate the workspace using the .rosinstall file:
+    $ cd ~/ros_ws
+    $ vcs import src < PATH_TO_ROSINSTALL_FILE.rosinstall
+    $ vcs pull src
+    
+    reference : http://wiki.ros.org/vcstool 
