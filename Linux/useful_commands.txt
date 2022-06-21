@@ -2,3 +2,35 @@ find a text in files in directory:
     $ grep -r <text_pattern_to_search> directory_or_path_to_search
     $ grep -r 'hello world' ~/myDir/myBranch/Another
     
+
+directly link (and move) whats in folder 1 to folder 2:
+    1. go to the folder where you want to make a link called my_link, 
+    where this link is going to jump you to another folder:
+    
+                                            For example (before linking):
+
+                                                ~/my_folder
+                                                    |- file1.txt
+                                                    |- file2.txt
+
+
+                                                ~/my_jumped_folder
+                                                    |- yes1.txt
+                                                    |- yes2.txt
+
+    $ cd ~/my_folder
+    $ ln -s ~/my_jumped_folder my_link
+    
+                                            result (after linking):
+
+                                                ~/my_folder
+                                                    |- file1.txt
+                                                    |- file2.txt
+                                                    |- my_link
+                                                        |- yes1.txt
+                                                        |- yes2.txt
+
+
+                                                ~/my_jumped_folder
+                                                    |- yes1.txt
+                                                    |- yes2.txt
