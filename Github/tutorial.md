@@ -6,6 +6,7 @@ $ git pull
 $ git add .
 $ git commit -m "msg title" -m "msg description"
 $ git commit -am "msg title"
+$ git push -u origin <branch name>
 $ git push
 $ git reset <commit hash>
 $ git reset --hard <commit hash>
@@ -21,10 +22,10 @@ $ git merge
 
 ## Git Commands:
 1. git clone    : bring a repo from online to local machine
-2. git add      : tell git to track your files and change
-3. git commit   : git saves your files
-4. git push     : upload git commits to a remote repo
-5. git pull     : 
+1. git add      : tell git to track your files and change
+1. git commit   : git saves your files
+1. git push     : upload git commits to a remote repo
+1. git pull     : 
 
 
 ## being a repo from local machine
@@ -32,6 +33,7 @@ $ git merge
     create a new repo
     name it
     copy the <ssh link>
+
 
 1. on the local machine
     $ mkdir ~/myRepo
@@ -44,8 +46,7 @@ $ git merge
     $ git add .
     $ git commit -m "init commit"
     $ git push -u origin master
-        -u : upstream
-
+        -u : --set-upstream
 
 
 ### ssh-keygen for a new machine
@@ -88,28 +89,39 @@ $ git push origin master
 master
 
     $ git branch                                    : see branches available
+
     $ git checkout -b feature-readme-instructions   : switched to a new branch
+
     $ git checkout master                           : switch back to master
+
     $ git checktout feature-readme-instrucitons
         make some changes
+
     $ git add .
+
     $ git commit -m "updated readme"
         now I would like to merge my new feature to master
         I can do that in 2 ways : 
         1st method:
             $ git checkout master
+
             $ git diff feature-readme-instructions
                 shows what changes have been made in a branch that I plan to merge
+
             $ git merge
+
         2nd method:
             $ git checkout feature-readme-instructions
+
             $ git status
                 push the commits to the public repo and then make a pull request online
+
             $ git push -u origin feature-readme-instructions
 
 
 ### git pull 
 $ git checkout master
+
 $ git pull origin master        : if you did not have an upstream
 $ git pull                      : if you already have an upstream
 
@@ -119,28 +131,40 @@ $ git branch -d feature-readme-instructions
 
 ### git conflicts
 $ git checkout master
+
 $ git checkout -b quick-test
     make some changes in README.md file , line 2
+
 $ git status
+
 $ git diff
+
 $ git commit -am "added something in branch"
     -am : add and commit (works for modified files and not newly created files)
+
 $ git checkout master
     update README.md file, line 2 (conflict)
+
 $ git commit -am "added something in master"
+
 $ git checkout quick-test
+
 $ git diff master
+
 $ git merge master  : to keep the branch up-to-date with whats going on in master
     it will say that there is a conflict
     we need to fix the merge conflicts
+
 $ git commit -am "updated with master and fixed the conflict"
 
 
 ### undo added (staged) files
 $ git checkout master
     modify README.md
+
 $ git status
     this will show that your modifications are not staged and not committed
+
 $ git add .
 $ git status
     now your modifications are staged but not commited
@@ -155,10 +179,14 @@ $ git status
 ### undo added and committed files
 $ git checkout master
     modify something
+
 $ git status
     this will show that your modifications are not staged and not committed
+
 $ git add .
+
 $ git commit -m "modified README.md"
+
 $ git status
     this will say that there is nothing to commit
 
@@ -184,5 +212,69 @@ $ git reset --hard <commit hash that I want to go back to>
 
 $ git status
     this will say that there is nothing to commit
+
+
+# Git tutorial: https://www.youtube.com/watch?v=Uszj_k0DGsg
+
+$ git add -p README.md
+    -p  : patch
+    will go through all chunks of changes in that file and ask you (y/n) whether you want 
+    to add (stage) this change to make a single commit.
+
+### git conflicts
+$ git merge <branch name>
+    if there is any conflicts, it will tell you the name of the file
+
+    in that file:
+        <<<<<<<<< HEAD
+        
+                <part from my branch that I want to merge>
+        
+        =========
+
+                <part from  develop>
+
+        >>>>>>>>> develop
+
+
+# Git tutorial: https://www.youtube.com/watch?v=CRlGDDprdOQ
+
+### git merge vs. rebase
+    Problem statement:
+        master  :    m1 ---- m2 ---- (m3)
+                             |
+        feature :            m2 ---- f1 ---- (f2)
+
+        combined:    m1 ---- m2 ---- m3 ---- (?)
+
+
+    Solutions: 
+        method 1: (git merge)
+            $ git checkout master
+            $ git log
+                m1 ---- m2 ---- (HEAD: m3)
+            $ git merge --squash feature
+                --squash : combines all the commits done in feature branch to 1 commit
+                           and puts that commit at the HEAD of master
+            $ git commit -m "feature and master merged"
+            $ git log    : I am still in the master branch
+                m1 ---- m2 ---- m3 ---- (HEAD: feature and master merged)
+
+
+        *WARNING: do NOT use git rebase with commits that exist outside your repo*
+        method 2: (git rebase)
+            $ git checkout feature
+            $ git log
+                m2 ---- f1 ---- (HEAD: f2)
+            $ git rebase master
+            $ git log   : I am still in the feature branch
+                m3 ---- f1 ---- (HEAD: f2)
+            $ git checkout master
+            $ git log
+                m1 ---- m2 ---- (HEAD: m3)
+            $ git rebase feature
+            $ git log
+                m1 ---- m2 ---- m3 ---- f1 ---- (HEAD:f2)
+
 
 
