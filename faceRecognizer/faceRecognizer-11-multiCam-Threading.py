@@ -27,6 +27,9 @@ camSet='nvarguscamerasrc !  video/x-raw(memory:NVMM), width=3264, height=2464, f
 cam1 = vStream(1, dispW, dispH, 0.5)
 cam2 = vStream(camSet, dispW, dispH, 0.5)
 
+cam1 = vStream(0, dispW, dispH, 0.5)
+cam2 = cam1
+
 startTime = time.time()
 font = cv2.FONT_HERSHEY_SIMPLEX
 dtavg = 0

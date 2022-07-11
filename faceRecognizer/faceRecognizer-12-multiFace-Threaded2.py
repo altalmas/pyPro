@@ -47,18 +47,10 @@ scaleFactor = 0.5
 while True:
     try:
         myFrame1 = cam1.getFrame()
-        cv2.rectangle(myFrame1, (0,0), (80,35), (0,0,255), 2)
-        cv2.putText(myFrame1, 'webCam', (5,20), font, 0.5, (0,255,255), 1)
-        cv2.rectangle(myFrame1, (0,35), (80,70), (0,0,255), -1)
-        cv2.putText(myFrame1, str(round(fps,1)), (5,60), font, 0.5, (0,255,255), 1)
-        #myFrame2 = cam2.getFrame()
-        #cv2.rectangle(myFrame2, (0,0), (60,35), (0,0,255), 2)
-        #cv2.putText(myFrame2, 'piCam', (5,20), font, 0.5, (0,255,255), 1)
+        cv2.putText(myFrame1, str(round(fps,1)), (5,60), font, 0.5, (0,0,255), 1)
+        #print(fps)
 
-        #myFrame3 = np.hstack((myFrame1, myFrame1)) # horizontally stack
-        myFrame3 = myFrame1
-
-        frameRGB = cv2.cvtColor(myFrame3, cv2.COLOR_BGR2RGB)
+        frameRGB = cv2.cvtColor(myFrame1, cv2.COLOR_BGR2RGB)
         frameRGBSmall = cv2.resize(frameRGB, (0,0), fx = scaleFactor, fy = scaleFactor)
         facePositions = face_recognition.face_locations(frameRGBSmall)
         allEncodings = face_recognition.face_encodings(frameRGBSmall, facePositions)
@@ -72,16 +64,16 @@ while True:
             bottom = int(bottom / scaleFactor)
             right = int(right / scaleFactor)
             left = int(left / scaleFactor)
-            cv2.rectangle(myFrame3, (left, top), (right, bottom), (0,0,255), 3)
-            cv2.putText(myFrame3, name,(left, top-6), font, 0.75, (0,255,255), 2)
+            cv2.rectangle(myFrame1, (left, top), (right, bottom), (0,0,255), 3)
+            cv2.putText(myFrame1, name,(left, top-6), font, 0.75, (0,255,255), 2)
 
         dt = time.time() - startTime
         startTime = time.time()
         dtavg = 0.9*dtavg + 0.1*dt # low pass filter
         fps = 1/dtavg
 
-        cv2.imshow('comboCam', myFrame3)
-        cv2.moveWindow('comboCam', 0, 0)
+        cv2.imshow('comboCam', myFrame1)
+        #cv2.moveWindow('comboCam', 1500, 0)
 
     except:
         print('frame not available')
