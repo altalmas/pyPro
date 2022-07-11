@@ -1,18 +1,18 @@
 # Git tutorial: https://www.youtube.com/watch?v=RGOj5yH7evk
 
 ## index of commands of this file:
-$ ssh-keygen -t rsa -b 4096 -C "altalmas.abdallah@gmail.com"  
-$ git pull
-$ git add .
-$ git commit -m "msg title" -m "msg description"
-$ git commit -am "msg title"
-$ git push -u origin <branch name>
-$ git push
-$ git reset <commit hash>
-$ git reset --hard <commit hash>
-$ git reset HEAD~1
-$ git status
-$ git merge
+1. ssh-keygen -t rsa -b 4096 -C "altalmas.abdallah@gmail.com"  
+1. git pull
+1. git add .
+1. git commit -m "msg title" -m "msg description"
+1. git commit -am "msg title"
+1. git push -u origin <branch name>
+1. git push
+1. git reset <commit hash>
+1. git reset --hard <commit hash>
+1. git reset HEAD~1
+1. git status
+1. git merge
 
 
 ## Vocab:
@@ -30,23 +30,23 @@ $ git merge
 
 ## being a repo from local machine
 1. on github.com
-    create a new repo
-    name it
-    copy the <ssh link>
+    * create a new repo
+    * name it
+    * copy the <ssh link>
 
 
 1. on the local machine
-    $ mkdir ~/myRepo
-    $ cd ~/myRepo
-    $ vim README.md
-    $ git init
-    $ git status
-    $ git remote add origin <ssh link>
-    $ git remote -v
-    $ git add .
-    $ git commit -m "init commit"
-    $ git push -u origin master
-        -u : --set-upstream
+    * $ mkdir ~/myRepo
+    * $ cd ~/myRepo
+    * $ vim README.md
+    * $ git init
+    * $ git status
+    * $ git remote add origin <ssh link>
+    * $ git remote -v
+    * $ git add .
+    * $ git commit -m "init commit"
+    * $ git push -u origin master
+        * -u : --set-upstream
 
 
 ### ssh-keygen for a new machine
