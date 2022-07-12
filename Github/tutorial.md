@@ -50,16 +50,16 @@
 
 
 ### ssh-keygen for a new machine
-1. step 1:
-    $ ssh-keygen -t rsa -b 4096 -C "altalmas.abdallah@gmail.com"  
-        -t : type
-        -b : strength
+1.
+    * $ ssh-keygen -t rsa -b 4096 -C "altalmas.abdallah@gmail.com"  
+        * -t : type
+        * -b : strength
 
-1. step 2:
+1.
     name your key something like "testkey.pub"
     .pub : make it public to everyone
 
-1. step 3:
+1.
     $ cd ~/.ssh
     $ cat testkey.pub
     the key starts with ssh-rsa .......... ends with your email
@@ -261,7 +261,12 @@ $ git merge <branch name>
                 m1 ---- m2 ---- m3 ---- (HEAD: feature and master merged)
 
 
-        *WARNING: do NOT use git rebase with commits that exist outside your repo*
+        *WARNING: do NOT use git rebase the commits that are published*
+        *WARNING: do NOT use git rebase in big projects unless you are sure
+        no one has used your published commits yet -with is hard to know-*
+        *Notes:
+            - git rebase re-writes the history
+            - git rebase results in a linear history
         method 2: (git rebase)
             $ git checkout feature
             $ git log
@@ -269,12 +274,21 @@ $ git merge <branch name>
             $ git rebase master
             $ git log   : I am still in the feature branch
                 m3 ---- f1 ---- (HEAD: f2)
+                note that commits f1 and f2 here have different commit hashes than
+                the previous f1 and f2 commits.
+                and this is the reason why rebasing the already published commits
+                is not advisable, because you are changing your published commits hashes
+                (changing the history)
             $ git checkout master
             $ git log
                 m1 ---- m2 ---- (HEAD: m3)
             $ git rebase feature
             $ git log
                 m1 ---- m2 ---- m3 ---- f1 ---- (HEAD:f2)
+
+
+# Git tutorial: https://www.youtube.com/watch?v=7Mh259hfxJg
+notes of this are added in the previous tutorial notes
 
 
 
