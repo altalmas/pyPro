@@ -13,20 +13,26 @@
 1. git reset HEAD~1
 1. git status
 1. git merge
-
+1. git rebase
 
 ## Vocab:
 1. CLI : command line interface
-1. 
 
 
 ## Git Commands:
-1. git clone    : bring a repo from online to local machine
-1. git add      : tell git to track your files and change
-1. git commit   : git saves your files
-1. git push     : upload git commits to a remote repo
-1. git pull     : 
+git clone    : bring a repo from online to local machine
 
+git add      : tell git to track your files and change
+
+git commit   : git saves your files
+
+git push     : upload git commits to a remote repo
+
+git pull     : 
+
+git merge
+
+git rebase
 
 ## being a repo from local machine
 1. on github.com
@@ -36,25 +42,35 @@
 
 
 1. on the local machine
-    * $ mkdir ~/myRepo
-    * $ cd ~/myRepo
-    * $ vim README.md
-    * $ git init
-    * $ git status
-    * $ git remote add origin <ssh link>
-    * $ git remote -v
-    * $ git add .
-    * $ git commit -m "init commit"
-    * $ git push -u origin master
-        * -u : --set-upstream
+
+    $ mkdir ~/myRepo
+
+    $ cd ~/myRepo
+
+    $ vim README.md
+
+    $ git init
+
+    $ git status
+
+    $ git remote add origin <ssh link>
+
+    $ git remote -v
+
+    $ git add .
+
+    $ git commit -m "init commit"
+
+    $ git push -u origin master
+        -u : --set-upstream
 
 
 ### ssh-keygen for a new machine
     $ ssh-keygen -t rsa -b 4096 -C "altalmas.abdallah@gmail.com"  
         -t : type
-    -b : strength
+        -b : strength
 
-    name your key something like "testkey.pub"
+    * name your key something like "testkey.pub"
         .pub : make it public to everyone
 
     $ cd ~/.ssh
@@ -64,7 +80,7 @@
     $ pbcopy < ~/.ssh/testkey.pub
         copy the key
 
-    now, add the key to you github account settings
+    * now, add the key to you github account settings
 
 
 ### git add 
@@ -81,6 +97,9 @@
 
     $ git commit -m "msg title" -m "msg description"
         -m : messege
+
+    $ git commit -am "msg title"
+        used when modifications are done on already existing files (no need to do git add <file>)
 
 
 ### git push
@@ -125,121 +144,122 @@ master
 
 
 ### git pull 
-$ git checkout master
+    $ git checkout master
 
-$ git pull origin master        : if you did not have an upstream
-$ git pull                      : if you already have an upstream
+    $ git pull origin master        : if you did not have an upstream
+
+    $ git pull                      : if you already have an upstream
 
 
 ### delete a branch
-$ git branch -d feature-readme-instructions
+    $ git branch -d feature-readme-instructions
 
 ### git conflicts
-$ git checkout master
+    $ git checkout master
 
-$ git checkout -b quick-test
-    make some changes in README.md file , line 2
+    $ git checkout -b quick-test
+        make some changes in README.md file , line 2
 
-$ git status
+    $ git status
 
-$ git diff
+    $ git diff
 
-$ git commit -am "added something in branch"
-    -am : add and commit (works for modified files and not newly created files)
+    $ git commit -am "added something in branch"
+        -am : add and commit (works for modified files and not newly created files)
 
-$ git checkout master
-    update README.md file, line 2 (conflict)
+    $ git checkout master
+        update README.md file, line 2 (conflict)
 
-$ git commit -am "added something in master"
+    $ git commit -am "added something in master"
 
-$ git checkout quick-test
+    $ git checkout quick-test
 
-$ git diff master
+    $ git diff master
 
-$ git merge master  : to keep the branch up-to-date with whats going on in master
-    it will say that there is a conflict
-    we need to fix the merge conflicts
+    $ git merge master  : to keep the branch up-to-date with whats going on in master
+        it will say that there is a conflict
+        we need to fix the merge conflicts
 
-$ git commit -am "updated with master and fixed the conflict"
+    $ git commit -am "updated with master and fixed the conflict"
 
 
-### undo added (staged) files
-$ git checkout master
-    modify README.md
+    ### undo added (staged) files
+    $ git checkout master
+        modify README.md
 
-$ git status
-    this will show that your modifications are not staged and not committed
+    $ git status
+        this will show that your modifications are not staged and not committed
 
-$ git add .
-$ git status
-    now your modifications are staged but not commited
+    $ git add .
+    $ git status
+        now your modifications are staged but not commited
 
-$ git reset README.md       : un-stage a specific file
-$ git reset                 : un-stage everything added
+    $ git reset README.md       : un-stage a specific file
+    $ git reset                 : un-stage everything added
 
-$ git status
-    this will show that your modifications are now staged
+    $ git status
+        this will show that your modifications are now staged
 
 
 ### undo added and committed files
-$ git checkout master
-    modify something
+    $ git checkout master
+        modify something
 
-$ git status
-    this will show that your modifications are not staged and not committed
+    $ git status
+        this will show that your modifications are not staged and not committed
 
-$ git add .
+    $ git add .
 
-$ git commit -m "modified README.md"
+    $ git commit -m "modified README.md"
 
-$ git status
-    this will say that there is nothing to commit
+    $ git status
+        this will say that there is nothing to commit
 
-$ git reset HEAD~1      :   here we basically undo the commit we did before
-    HEAD : a pointer to the last commit
-    ~1   : point to 1 commit before
+    $ git reset HEAD~1      :   here we basically undo the commit we did before
+        HEAD : a pointer to the last commit
+        ~1   : point to 1 commit before
 
-$ git status
-    this will show that your modifications still there but not staged and not committed
+    $ git status
+        this will show that your modifications still there but not staged and not committed
 
-$ git diff
+    $ git diff
 
-$ git log
-    see all commits done before unique with their <commit hashes>
+    $ git log
+        see all commits done before unique with their <commit hashes>
 
-$ git reset <commit hash that I want to go back to>
+    $ git reset <commit hash that I want to go back to>
 
-$ git status
-    this will show that your modifications still there but not staged and not committed
+    $ git status
+        this will show that your modifications still there but not staged and not committed
 
-$ git reset --hard <commit hash that I want to go back to>
-    this gets rid of the commits and the changes
+    $ git reset --hard <commit hash that I want to go back to>
+        this gets rid of the commits and the changes
 
-$ git status
-    this will say that there is nothing to commit
+    $ git status
+        this will say that there is nothing to commit
 
 
-# Git tutorial: https://www.youtube.com/watch?v=Uszj_k0DGsg
+    # Git tutorial: https://www.youtube.com/watch?v=Uszj_k0DGsg
 
-$ git add -p README.md
-    -p  : patch
-    will go through all chunks of changes in that file and ask you (y/n) whether you want 
-    to add (stage) this change to make a single commit.
+    $ git add -p README.md
+        -p  : patch
+        will go through all chunks of changes in that file and ask you (y/n) whether you want 
+        to add (stage) this change to make a single commit.
 
 ### git conflicts
-$ git merge <branch name>
-    if there is any conflicts, it will tell you the name of the file
+    $ git merge <branch name>
+        if there is any conflicts, it will tell you the name of the file
 
-    in that file:
-        <<<<<<<<< HEAD
-        
-                <part from my branch that I want to merge>
-        
-        =========
+        in that file:
+            <<<<<<<<< HEAD
+            
+                    <part from my branch that I want to merge>
+            
+            =========
 
-                <part from  develop>
+                    <part from  develop>
 
-        >>>>>>>>> develop
+            >>>>>>>>> develop
 
 
 # Git tutorial: https://www.youtube.com/watch?v=CRlGDDprdOQ
