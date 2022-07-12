@@ -13,6 +13,7 @@
 1. git reset HEAD~1
 1. git status
 1. git merge
+1. git merge --squash
 1. git rebase
 
 ## Vocab:
@@ -28,11 +29,11 @@ git commit   : git saves your files
 
 git push     : upload git commits to a remote repo
 
-git pull     : 
+git pull     : update local repo from online
 
-git merge
+git merge    : (see tutorial)
 
-git rebase
+git rebase   : (see tutorial)
 
 ## being a repo from local machine
 1. on github.com
@@ -43,28 +44,28 @@ git rebase
 
 1. on the local machine
 
-    $ mkdir ~/myRepo
+        $ mkdir ~/myRepo
 
-    $ cd ~/myRepo
+        $ cd ~/myRepo
 
-    $ vim README.md
+        $ vim README.md
 
-    $ git init
+        $ git init
 
-    $ git status
+        $ git status
 
-    $ git remote add origin <ssh link>
+        $ git remote add origin <ssh link>
 
-    $ git remote -v
+        $ git remote -v
 
-    $ git add .
+        $ git add .
 
-    $ git commit -m "init commit"
+        $ git commit -m "init commit"
 
-    $ git push -u origin master
-        -u : --set-upstream
+        $ git push -u origin master
+            -u : --set-upstream
 
-
+-----------
 ### ssh-keygen for a new machine
     $ ssh-keygen -t rsa -b 4096 -C "altalmas.abdallah@gmail.com"  
         -t : type
@@ -75,14 +76,14 @@ git rebase
 
     $ cd ~/.ssh
     $ cat testkey.pub
-        * the key starts with ssh-rsa .......... ends with your email
+        the key starts with ssh-rsa .......... ends with your email
 
     $ pbcopy < ~/.ssh/testkey.pub
         copy the key
 
     * now, add the key to you github account settings
 
-
+-----------
 ### git add 
 
     $ git add .
@@ -93,6 +94,7 @@ git rebase
         -p  : patch
             will go through all chunks of changes in that file and ask you (y/n) whether you want to add (stage) this change to make a single commit.
 
+-----------
 ### git commit
 
     $ git commit -m "msg title" -m "msg description"
@@ -101,16 +103,15 @@ git rebase
     $ git commit -am "msg title"
         used when modifications are done on already existing files (no need to do git add <file>)
 
-
+-----------
 ### git push
 
     $ git push origin master
         origin : remote name
         master : branch name
 
-
+-----------
 ### git branching
-master
 
     $ git branch                                    : see branches available
 
@@ -126,6 +127,7 @@ master
     $ git commit -m "updated readme"
         now I would like to merge my new feature to master
         I can do that in 2 ways : 
+
         1st method:
             $ git checkout master
 
@@ -142,7 +144,7 @@ master
 
             $ git push -u origin feature-readme-instructions
 
-
+-----------
 ### git pull 
     $ git checkout master
 
@@ -150,10 +152,11 @@ master
 
     $ git pull                      : if you already have an upstream
 
-
+-----------
 ### delete a branch
     $ git branch -d feature-readme-instructions
 
+-----------
 ### git conflicts
     $ git checkout master
 
