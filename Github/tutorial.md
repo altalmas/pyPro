@@ -50,44 +50,44 @@
 
 
 ### ssh-keygen for a new machine
-$ ssh-keygen -t rsa -b 4096 -C "altalmas.abdallah@gmail.com"  
-    -t : type
+    $ ssh-keygen -t rsa -b 4096 -C "altalmas.abdallah@gmail.com"  
+        -t : type
     -b : strength
 
-name your key something like "testkey.pub"
-    .pub : make it public to everyone
+    name your key something like "testkey.pub"
+        .pub : make it public to everyone
 
-$ cd ~/.ssh
-$ cat testkey.pub
-    * the key starts with ssh-rsa .......... ends with your email
+    $ cd ~/.ssh
+    $ cat testkey.pub
+        * the key starts with ssh-rsa .......... ends with your email
 
-$ pbcopy < ~/.ssh/testkey.pub
-    copy the key
+    $ pbcopy < ~/.ssh/testkey.pub
+        copy the key
 
-now, add the key to you github account settings
+    now, add the key to you github account settings
 
 
 ### git add 
 
-$ git add .
+    $ git add .
 
-$ git add <file name>
+    $ git add <file name>
 
-$ git add -p <file name>
-    -p  : patch
-        will go through all chunks of changes in that file and ask you (y/n) whether you want to add (stage) this change to make a single commit.
+    $ git add -p <file name>
+        -p  : patch
+            will go through all chunks of changes in that file and ask you (y/n) whether you want to add (stage) this change to make a single commit.
 
 ### git commit
 
-$ git commit -m "msg title" -m "msg description"
-    -m : messege
+    $ git commit -m "msg title" -m "msg description"
+        -m : messege
 
 
 ### git push
 
-$ git push origin master
-    origin : remote name
-    master : branch name
+    $ git push origin master
+        origin : remote name
+        master : branch name
 
 
 ### git branching
