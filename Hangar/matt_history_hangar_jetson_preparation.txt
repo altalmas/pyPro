@@ -83,25 +83,29 @@
       $ vim docker-compose.yml
 
    13. install docker-compose on Jetson from (README.md)
+      $ cd ~/beaglehouse
+      $ sudo docker --version
+      $ export DOCKER_COMPOSE_VERSION=1.27.4
+      $ sudo apt-get install libhdf5-dev
+      $ sudo apt-get install libssl-dev
+      $ sudo apt install python3
+      $ sudo apt install python3-pip
+      $ pip --version
+      $ pip3 --version
+      $ sudo pip3 install docker-compose=="${DOCKER_COMPOSE_VERSION}"
+      $ sudo python3 -m pip install --upgrade pip
+      $ sudo pip3 install docker-compose
 
-   99  cd beaglehouse/
-  100  sudo docker --version
-  101  export DOCKER_COMPOSE_VERSION=1.27.4
-  102  sudo apt-get install libhdf5-dev
-  103  sudo apt-get install libssl-dev
-  104  apt install python3
-  105  sudo apt install python3
-  106  apt install python3-pip
-  107  sudo apt install python3-pip
-  108  pip --version
-  109  pip3 --version
-  110  pip3 install docker-compose
-  111  sudo pip3 install docker-compose
-  112  sudo python3 -m pip install --upgrade pip
-  113  sudo pip3 install docker-compose
-  114  sudo docker-compose up -d --build
-  115  ls
-  116  ll
+   14. run the docker-compose file (takes some time)
+      $ sudo docker-compose up -d --build
+
+   15. verify the dockers
+      $ docker ps
+
+   16. stop the dockers
+      $ sudo docker-compose down
+
+      
   117  cd .envs/
   118  ls
   119  nano celery.env
@@ -116,4 +120,3 @@
   128  sudo docker ps
   129  sudo docker down
   130  sudo docker-compose down
-  131  history
