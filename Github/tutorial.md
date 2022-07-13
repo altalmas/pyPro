@@ -395,6 +395,7 @@ Assume you have 2 dependent repos : surface and inside of it is submarine
 
     $ cd surface
     $ git rm submarine
+    $ git rm --cached submarine		: sometimes you need this
     $ rm -rf .git/modules/submarine
     
     go to .git/config and delete the parts related to submarine
