@@ -15,6 +15,8 @@
 1. git merge
 1. git merge --squash
 1. git rebase
+1. git log
+1. git log --oneline
 
 ## Vocab:
 1. CLI : command line interface
@@ -319,4 +321,88 @@ git rebase   : (see tutorial)
 notes of this are added in the previous tutorial notes
 
 
+# Git submodule tutorial (series of videos): https://www.youtube.com/watch?v=RgIAXF53a8U&list=PL_RrEj88onS-jN7dZb-tYz0cpsxuA23Cm
+
+## create submodules locally (manually)
+    $ mkdir myRepo
+    $ cd myRepo
+    $ git init
+    $ touch hello.txt
+    $ git add .
+    $ git commit -m "init myRepo with hello.txt"
+    $ git log --oneline 
+        has only 1 commit
+    $ mkdir mySub
+    $ cd mySub
+    $ git init
+    $ touch moin.txt
+    $ git add .
+    $ git commit -m "init mySub with moin.txt"
+    $ git log --oneline
+        has only 1 commit
+    $ cd ..
+        go back to myRepo folder
+    $ git submodule add ./mySub
+    $ git status
+        new file: .gitmodules
+        new file: submarines
+    $ git add .
+    $ git commit -m "added submodule mySub with .gitmodules"
+    $ git log --oneline
+        has 2 commits
+
+
+## create submodules from online
+
+Assume you have 2 online repos: 1. surface 2. submarine
+
+    $ git clone <surface url>
+    $ git log --oneline
+        1 commit
+    
+    $ git submodule add <submarine url>
+        I do this while being in /surface directory
+    
+    $ git status
+        new file: .gitmodules
+        new file: submarine
+
+    $ git add .
+    $ git commit -m "add submarine submodule"
+
+    I am still in surface
+    $ touch my.txt
+
+    $ cd submarine
+    $ touch name.txt
+    $ git add .
+    $ git commit -m "added name.txt"
+
+    $ cd ..
+        go back to surface
+    
+    $ git push origin
+        will push to the remote repo surface only and will not push to submarine
+        we will only see a reference of the remote repo submarine
+
+    $ cd submarine
+    $ git push
+        will push to the remote repo submarine
+
+## delete a git submodule
+
+Assume you have 2 dependent repos : surface and inside of it is submarine
+
+    $ cd surface
+    $ git rm submarine
+    $ rm -rf .git/modules/submarine
+    
+    go to .git/config and delete the parts related to submarine
+
+    $ git add .
+    $ git commit -m "removed submarine submodule"
+
+    $ git push origin
+
+    
 
