@@ -1,0 +1,24 @@
+Explanation of M5-crash
+
+steps:              TOPIC                               VALUE (at timestamp)        EXPLANATION
+
+    1.                                                                              Flying
+
+    2.      battery_status.00/remaining                ~0.03 (at ~3700)     Beginning from timestamp ~3700, the FW battery (battery_status.00) almost became dead (~0.03).
+    2.      battery_status.00/voltage_cell_v.00    
+
+    3.      commander_state/main_state                  11                  The vehicle went into Land mode (Transition to MR then
+
+    4.      commander_state/main_state                  2                   Pilot saw that there are trees below, so he had to manually move the vehicle (changed to Position mode)
+    4.                                                                      - now the vehicle is using MR battery (battery_status.01) with good health 
+
+    5.      battery_status.01/remaining                                     While in position mode, the pilot tried to Land manually (this is a mistake, he had to trigger automatic land)
+    5.      battery_status.01/voltage_cell_v.00                             the MR battery quickly started to die. but it has not die
+
+    6.      vehicle_status/rc_signal_lost               1 (at ~3830)        During position mode and at an altitude around 10 m above the ground, rc_signal_lost because of mou
+    
+    7.      battery_status.01/remaining                 ~0.40 (at ~3830)    when rc_signal_lost happened, the fail_safe got triggered (while the MR battery is still above the threshold 'not bad health with ~0.4 remaining')
+    7.                                                                      Therefore, the vehicle went into RTL mode in MR
+    
+    8.                                                                      at the beginning of RTL mode, the vehicle increased its altitude to ~40m above ground
+    8.                                                                      during the RTL mode, the MR battery went dead and the vehicle disarmed and crashed at an altitude of ~40m
