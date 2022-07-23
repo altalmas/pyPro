@@ -1,0 +1,29 @@
+
+steps:
+
+    1.  create a (.sh) file where every you want
+        example: my_command.sh
+        recommended place : /usr/local/sbin/
+                            (use sudo)
+
+    2.  create a .service file in /etc/systemd/system/
+        example : my_serv.service
+        the file contains:
+            '''
+            [Unit]
+            Description= Automatically runs some shell command
+
+            [Service]
+            ExecStart=/usr/local/sbin/my_command.sh
+
+            [Install]
+            WantedBy=multi-user.target
+            '''
+
+    3.  enable and start your service
+        $ sudo systemctl enable my_serv.service
+        $ sudo systemctl start my_serv.service
+        $ sudo systemctl status my_serv.service
+        
+    4.  other options
+        $ sudo systemctl [status/start/stop/restart/enable/disable] my_serv.service
