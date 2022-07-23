@@ -6,7 +6,10 @@ steps:
         recommended place : /usr/local/sbin/
                             (use sudo)
 
-    2.  create a .service file in /etc/systemd/system/
+    2.  make the .sh file executable
+        $ chmod +x /usr/local/sbin/my_command.sh
+
+    3.  create a .service file in /etc/systemd/system/
         example : my_serv.service
         the file contains:
             '''
@@ -20,10 +23,10 @@ steps:
             WantedBy=multi-user.target
             '''
 
-    3.  enable and start your service
+    4.  enable and start your service
         $ sudo systemctl enable my_serv.service
         $ sudo systemctl start my_serv.service
         $ sudo systemctl status my_serv.service
         
-    4.  other options
+    5.  other options
         $ sudo systemctl [status/start/stop/restart/enable/disable] my_serv.service
